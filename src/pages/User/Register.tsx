@@ -1,25 +1,23 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterSchema } from '../../utils/schema/loginSignupSchema';
-import {  userDetails, newUser, incomeSource, expenseSource, transHistory, Budget} from "../../utils/interface/types" // Assuming this defines RegisterSchema correctly
+import { userDetails, newUser } from "../../utils/interface/types" // Assuming this defines RegisterSchema correctly
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Container, Button, TextField, Typography, AppBar, Toolbar } from '@mui/material';
+import {  TextField, Typography, AppBar, Toolbar, InputAdornment, IconButton, Container, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
-
-import { useDispatch } from 'react-redux';
-
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import CommonButton from '../../components/common/CommonButton';
 import useRegister from '../../utils/customHooks/useRegisterForm';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CommonButton from '../../components/common/CommonButton';
 
 const Register = () => {
     // const dispatch = useDispatch();
     const navigate = useNavigate();
     // let loading=false;
-    const [loading,setLoading]=useState<boolean>(false);
-const [showPassword,setShowPasswrod]=useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm<userDetails>({
         resolver: yupResolver(RegisterSchema), // Ensure RegisterSchema matches User interface
         defaultValues: {
@@ -33,7 +31,7 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
     const handleFormSubmit: SubmitHandler<userDetails> = async (data) => {
         try {
             setLoading(true);
-            
+
             // Construct newUser object
             const newUserObject: newUser = {
                 user: {
@@ -46,7 +44,7 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
                 transDetails: [],
                 budgetDetails: []
             };
-    
+
             const result = await useRegister(newUserObject); // Pass newUserObject here
             console.log(result);
             navigate(`/login`)
@@ -62,7 +60,7 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
 
 
         } catch (error) {
-            if(error instanceof Error){
+            if (error instanceof Error) {
 
                 console.log('registration error', error);
                 toast.error(`${error.message}`, {
@@ -88,11 +86,11 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
                 });
             }
         }
-        finally{
+        finally {
             setLoading(false)
         }
     };
-    if(loading){
+    if (loading) {
         return <>Loading....</>
     }
     return (
@@ -120,59 +118,134 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
             </AppBar>
 
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem',width:'90vw'}}>
-                    <Controller
-                        name="name"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                type="text"
-                                label="Name"
-                                variant="outlined"
-                                fullWidth
-                                error={!!errors.name}
-                                helperText={errors.name ? errors.name.message : ''}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="email"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                type="email"
-                                label="Email"
-                                variant="outlined"
-                                fullWidth
-                                error={!!errors.email}
-                                helperText={errors.email ? errors.email.message : ''}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="password"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                type={showPassword ?`text` : `password`}
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                                error={!!errors.password}
-                                helperText={errors.password ? errors.password.message : ''}
-                            />
-                        )}
-                    />
-                    <Button type="submit" variant="contained" color="primary" fullWidth>  SignUp!</Button>
-            
-                    <NavLink to='/login'>Login</NavLink>
-                </Box>
+            <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
+            <Box sx={{ bgcolor: '#f5f5f5', p: 4, borderRadius: 3 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="name"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    type="text"
+                                    label="Name"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!!errors.name}
+                                    helperText={errors.name ? errors.name.message : ''}
+                                    sx={{
+                                        '& .MuiInputLabel-root': { color: '#333' },
+                                        '& .MuiInputBase-input': { color: '#333' },
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#ddd' },
+                                            '&:hover fieldset': { borderColor: '#888' },
+                                            '&.Mui-focused fieldset': { borderColor: '#888' },
+                                            borderRadius: 3,
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    type="email"
+                                    label="Email"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!!errors.email}
+                                    helperText={errors.email ? errors.email.message : ''}
+                                    sx={{
+                                        '& .MuiInputLabel-root': { color: '#333' },
+                                        '& .MuiInputBase-input': { color: '#333' },
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#ddd' },
+                                            '&:hover fieldset': { borderColor: '#888' },
+                                            '&.Mui-focused fieldset': { borderColor: '#888' },
+                                            borderRadius: 3,
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="password"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    type={showPassword ? 'text' : 'password'}
+                                    label="Password"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!!errors.password}
+                                    helperText={errors.password ? errors.password.message : ''}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    sx={{
+                                        '& .MuiInputLabel-root': { color: '#333' },
+                                        '& .MuiInputBase-input': { color: '#333' },
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#ddd' },
+                                            '&:hover fieldset': { borderColor: '#888' },
+                                            '&.Mui-focused fieldset': { borderColor: '#888' },
+                                            borderRadius: 3,
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CommonButton type="submit" >
+                            SignUp!
+                        </CommonButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', color: '#555' }}>
+                        Already have an account? 🎯{' '}
+                            <Typography
+                                component="span"
+                                sx={{
+                                    color: '#d00000',
+                                    fontWeight: 'bold',
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        textDecoration: 'underline',
+                                    },
+                                }}
+                                onClick={() => navigate('/login')}
+                            >
+                                Login now!
+                            </Typography>
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Container>
             </form>
         </>);
 }

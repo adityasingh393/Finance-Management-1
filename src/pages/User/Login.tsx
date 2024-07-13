@@ -1,15 +1,16 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from '../../utils/schema/loginSignupSchema';
-import { Button, TextField, Typography, AppBar, Toolbar, InputAdornment, IconButton } from '@mui/material';
+import {  TextField, Typography, AppBar, Toolbar, InputAdornment, IconButton, Container, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useLogin from '../../utils/customHooks/useLogin';
 import { LoginFormInput } from '../../utils/interface/types';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CommonButton from '../../components/common/CommonButton';
 // import CommonButton from '../../components/common/CommonButton';
 
 const Login = () => {
@@ -42,7 +43,7 @@ const Login = () => {
                 draggable: true,
                 progress: undefined,
             });
-            navigate(`/dashboad`)
+            navigate(`/dashboard`)
 
         } catch (error) {
             console.log('Login error', error);
@@ -75,9 +76,9 @@ const Login = () => {
             setLoading(false)
         }
     };
-if(loading){
-    return <>Loading....</>
-}
+    if (loading) {
+        return <>Loading....</>
+    }
     return (
         <>
             <AppBar
@@ -97,63 +98,113 @@ if(loading){
                         fontFamily: "Playwrite DK Uloopet",
                         fontWeight: 'bold'
                     }}>
-                       Welcome Back! 👋
+                        Welcome Back! 👋
                     </Typography>
                 </Toolbar>
             </AppBar>
 
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-
-                    <Controller
-                        name="email"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                type="email"
-                                label="Email"
-                                variant="outlined"
-                                fullWidth
-                                error={!!errors.email}
-                                helperText={errors.email ? errors.email.message : ''}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="password"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                type={showPassword ? 'text' : 'password'}
-                                label="Password"
-                                variant="outlined"
-                                fullWidth
-                                error={!!errors.password}
-                                helperText={errors.password ? errors.password.message : ''}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => setShowPassword(!showPassword)}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
+            <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
+            <Box sx={{ bgcolor: '#f5f5f5', p: 4, borderRadius: 3 }}>
+                <Grid container spacing={2}>
+                   
+                    <Grid item xs={12}>
+                        <Controller
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    type="email"
+                                    label="Email"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!!errors.email}
+                                    helperText={errors.email ? errors.email.message : ''}
+                                    sx={{
+                                        '& .MuiInputLabel-root': { color: '#333' },
+                                        '& .MuiInputBase-input': { color: '#333' },
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#ddd' },
+                                            '&:hover fieldset': { borderColor: '#888' },
+                                            '&.Mui-focused fieldset': { borderColor: '#888' },
+                                            borderRadius: 3,
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="password"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    type={showPassword ? 'text' : 'password'}
+                                    label="Password"
+                                    variant="outlined"
+                                    fullWidth
+                                    error={!!errors.password}
+                                    helperText={errors.password ? errors.password.message : ''}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    sx={{
+                                        '& .MuiInputLabel-root': { color: '#333' },
+                                        '& .MuiInputBase-input': { color: '#333' },
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': { borderColor: '#ddd' },
+                                            '&:hover fieldset': { borderColor: '#888' },
+                                            '&.Mui-focused fieldset': { borderColor: '#888' },
+                                            borderRadius: 3,
+                                        },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CommonButton type="submit" >
+                       Login
+                        </CommonButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', color: '#555' }}>
+                            Don’t have an account?{' '}
+                            <Typography
+                                component="span"
+                                sx={{
+                                    color: '#d00000',
+                                    fontWeight: 'bold',
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        textDecoration: 'underline',
+                                    },
                                 }}
-                            />
-                        )}
-                    />
-                    <Button type="submit" variant="contained" color="primary" fullWidth>  SignUp!</Button>
-
-                    <NavLink to='/login'>Login</NavLink>
-                </Box>
+                                onClick={() => navigate('/register')}
+                            >
+                                Sign Up
+                            </Typography>
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
+                </Container>
             </form>
         </>);
 }

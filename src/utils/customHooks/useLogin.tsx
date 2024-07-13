@@ -1,6 +1,5 @@
 import localforage from 'localforage';
 import { LoginFormInput, newUser } from '../interface/types';
-// import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const useLogin = async (loginUser: LoginFormInput) => {
     // const navigate = useNavigate(); // Use useNavigate hook to get navigation function
@@ -15,6 +14,11 @@ const useLogin = async (loginUser: LoginFormInput) => {
                 throw new Error(`Credentials not Match`)
                 return;
             }
+           // Convert existingUser to string format using JSON.stringify()
+           const userString = JSON.stringify(existingUser);
+            
+           // Store the serialized user string in sessionStorage
+           sessionStorage.setItem("currentUser", userString);
             return existingUser;
         } else {
             console.log(`User not found`);
@@ -26,3 +30,4 @@ const useLogin = async (loginUser: LoginFormInput) => {
 };
 
 export default useLogin;
+

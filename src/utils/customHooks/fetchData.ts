@@ -1,12 +1,21 @@
-import localforage from "localforage";
 import { newUser } from "../interface/types";
 
-export const fetchData = async (email: string): Promise<newUser | null> => {
-  try {
-    const userData = await localforage.getItem<newUser>(`user_${email}`);
-    return userData;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return null;
-  }
-};
+export const fetchData = (): newUser | null => {
+    const userString = sessionStorage.getItem('currentUser');
+    
+    if (userString) {
+      try {
+        const userData: newUser = JSON.parse(userString);
+        console.log(userData,"userdata")
+        return userData;
+        
+      } catch (error) {
+        console.error('Error parsing user data from sessionStorage:', error);
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
+  
+  

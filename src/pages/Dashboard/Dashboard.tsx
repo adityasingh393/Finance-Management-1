@@ -16,7 +16,8 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const data = await fetchData("john.doe@example.com");
+      const data =  fetchData();
+      console.log(data,`log`)
       if (data) {
         setUserData(data);
         setLatestTransactions(data.transDetails?.slice(-5).reverse() || []);
