@@ -10,12 +10,10 @@ const AppRouter = () => (
     <Router>
         <Routes>
             <Route path="/" element={<Here />} />
-            <Route path="/Dashboard" element={<Dashboard/>}/>
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} /> */}
-            {/* Add more routes as needed */}
-            <Route path="/register" element={<Register />} /> 
-           <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path='/income'  />
         </Routes>
     </Router>
 );
