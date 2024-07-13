@@ -3,14 +3,6 @@ import { Typography, Box, Container } from '@mui/material';
 import { cn } from '../../lib/utils';
 import GridPattern from '../../components/landing/GridPattern';
 import CommonButton from '../../components/common/CommonButton';
-import LogoHeader from './LogoHeader';
-import Navbar from '../../components/common/Navbar';
-import { BorderBeam } from '../../components/landing/BorderBeam';  // Import the BorderBeam component
-import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
-
-
-
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   return (
