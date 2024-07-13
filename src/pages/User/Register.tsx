@@ -1,25 +1,22 @@
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterSchema } from '../../utils/schema/loginSignupSchema';
-import {  userDetails, newUser, incomeSource, expenseSource, transHistory, Budget} from "../../utils/interface/types" // Assuming this defines RegisterSchema correctly
+import {  userDetails, newUser} from "../../utils/interface/types" // Assuming this defines RegisterSchema correctly
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Container, Button, TextField, Typography, AppBar, Toolbar } from '@mui/material';
+import {  Button, TextField, Typography, AppBar, Toolbar, InputAdornment, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
-
-import { useDispatch } from 'react-redux';
-
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import CommonButton from '../../components/common/CommonButton';
 import useRegister from '../../utils/customHooks/useRegisterForm';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Register = () => {
     // const dispatch = useDispatch();
     const navigate = useNavigate();
     // let loading=false;
     const [loading,setLoading]=useState<boolean>(false);
-const [showPassword,setShowPasswrod]=useState<boolean>(false);
+const [showPassword,setShowPassword]=useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm<userDetails>({
         resolver: yupResolver(RegisterSchema), // Ensure RegisterSchema matches User interface
         defaultValues: {
@@ -153,19 +150,32 @@ const [showPassword,setShowPasswrod]=useState<boolean>(false);
                             />
                         )}
                     />
-                    <Controller
+                  <Controller
                         name="password"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
                             <TextField
                                 {...field}
-                                type={showPassword ?`text` : `password`}
+                                type={showPassword ? 'text' : 'password'}
                                 label="Password"
                                 variant="outlined"
                                 fullWidth
                                 error={!!errors.password}
                                 helperText={errors.password ? errors.password.message : ''}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         )}
                     />
