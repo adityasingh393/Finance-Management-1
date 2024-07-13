@@ -196,7 +196,7 @@ const Login = () => {
                                         textDecoration: 'underline',
                                     },
                                 }}
-                                onClick={() => navigate('/register')}
+                                onClick={() => navigate('/signup')}
                             >
                                 Sign Up
                             </Typography>
