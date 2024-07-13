@@ -31,13 +31,7 @@ export interface newUser{
     transDetails?:transHistory[];
     budgetDetails?:Budget[];
 }
-
-
-
-
-
 export interface LoginFormInput {
     email: string;
     password: string;
- 
 }

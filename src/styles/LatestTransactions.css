@@ -1,0 +1,28 @@
+.latest-transactions {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .latest-transactions h2 {
+    margin-bottom: 10px;
+  }
+  
+  .transaction-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .transaction-item:last-child {
+    border-bottom: none;
+  }
+  
+  .transaction-item:nth-child(even) {
+    background-color: #f1f1f1;
+  }
+  
+  .transaction-item:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
