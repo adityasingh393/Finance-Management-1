@@ -1,14 +1,14 @@
-// src/App.tsx
-import React from 'react';
-import { Provider } from 'react-redux';
 import AppRouter from './Router/AppRouter';
+import { ToastContainer } from 'react-toastify';
 
 
 const App = () => {
     return (
         
-          
+          <>
+            <ToastContainer position="top-center" autoClose={3000} />
             <AppRouter />
+          </>
        
     );
 };

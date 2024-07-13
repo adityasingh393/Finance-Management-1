@@ -1,52 +1,46 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import Button from "@mui/material/Button";
+// import Loader from './Loader';
 
-interface CommonButtonProps {
-    onClick: () => void;
-    children: React.ReactNode;
-    color?: 'inherit' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-    variant?: 'text' | 'outlined' | 'contained';
+interface CustomButtonProps {
+    type?: "button" | "submit" | "reset" | undefined;
     disabled?: boolean;
-    size?: 'small' | 'medium' | 'large';
-    sx?: object;
+    loading?: boolean;
+    onClick?: () => void;
+    children: string
 }
 
-const CommonButton: React.FC<CommonButtonProps> = ({
-    onClick,
-    children,
-    color = 'primary',
-    variant = 'contained',
-    disabled = false,
-    size = 'small',
-    sx = {},
-}) => {
+const CommonButton: React.FC<CustomButtonProps> = ({ type = "button", disabled = false, loading = false, onClick, children }) => {
     return (
         <Button
-            onClick={onClick}
-            color={color}
-            variant={variant}
-            disabled={disabled}
-            size={size}
-            sx={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 800,
-                textTransform: 'none',
-                px: 4,
-                py: 2,
-                borderRadius: 50,
-                backgroundColor: '#001219',
-                color: '#ffffff',
-                '&:hover': {
-                    backgroundColor: '#415a77',
-                },
-                '&:disabled': {
-                    backgroundColor: '#333',
-                },
-                ...sx,
-            }}
+          type={type}
+          variant="contained"
+          disabled={disabled || loading}
+          size="large"
+          onClick={onClick}
+          sx={{
+            mt:'18px',
+            mb:'12px',
+            backgroundColor: '#03071e',
+            color: 'white',
+            '&:hover': { backgroundColor: '#d00000' },
+            height: 50,  // Adjusted height for a smaller button
+            fontSize: '1rem',
+            fontWeight:'bold',  // Adjusted font size for a smaller button
+            width: '100%',  
+            maxWidth: 250,  // Adjusted max width for a smaller button
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '50px',
+            // border: '2px break black',  // Added 2px black border
+            mx: 'auto',  // Center the button horizontally
+          }}
         >
-            {children}
-        </Button>
+  {children}
+  {/* {loading && <Loader />} */}
+</Button>
+
     );
 };
 
