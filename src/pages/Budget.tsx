@@ -1,11 +1,42 @@
 import { Button, Container, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
+import { Budget, newUser } from '../utils/interface/types';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { fetchData } from '../utils/customHooks/fetchData';
+import { useDispatch } from 'react-redux';
+import { addToBudgetArray } from '../redux/slices/userSlice';
 
-const Budget = () => {
+const BudgetPage = () => {
+    const [_userData, setUserData] = useState<newUser | null>(null);
     const { control, handleSubmit } = useForm();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = fetchData();
+            console.log(data, `log`)
+            if (data) {
+                setUserData(data);
+                // console.log(data)
+                // console.log(userData)
+            }
+            else{
+                navigate('/login')
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const onSubmit = (data: any) => {
-        console.log(data);
+        // console.log(data);
+        const newObject:Budget = {
+            type: data.budgetType,
+            amount: data.amount
+        }
+        dispatch(addToBudgetArray(newObject))
     };
 
     return (
@@ -71,4 +102,4 @@ const Budget = () => {
     )
 }
 
-export default Budget
+export default BudgetPage

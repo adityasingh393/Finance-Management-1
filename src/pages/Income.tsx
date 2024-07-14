@@ -1,11 +1,46 @@
 import { Button, Container, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
+import { newUser, transHistory } from '../utils/interface/types';
+import { useEffect, useState } from 'react';
+import { fetchData } from '../utils/customHooks/fetchData';
+import { useNavigate } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import { addToIncomeArray, addIncomeToTansactionArray } from '../redux/slices/userSlice';
+import dayjs from 'dayjs'
 
 const Income = () => {
+    const [_userData, setUserData] = useState<newUser | null>(null);
     const { control, handleSubmit } = useForm();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    useEffect(() => {
+        const fetchUserData = () => {
+            const data = fetchData();
+            console.log(data, `log`)
+            if (data) {
+                setUserData(data);
+                // console.log(data)
+                // console.log(userData)
+            }
+            else{
+                navigate('/login')
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    const onSubmit = (data:any) => {
+        // console.log(data.incomeType, data.amount);
+        dispatch(addToIncomeArray(data))
+        const newObject:transHistory = {
+            date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+            type: data.incomeType,
+            amount: data.amount
+        }
+        // console.log(newObject)
+        dispatch(addIncomeToTansactionArray(newObject))
     };
 
     return (

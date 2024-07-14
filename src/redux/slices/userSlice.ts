@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { newUser } from '../../utils/interface/types';
+import { Budget, expenseSource, incomeSource, newUser, transHistory } from '../../utils/interface/types';
+import { saveBudgetToSession, saveExpenseToSession, saveIncomeToSession, saveTransactionToSession } from '../../utils/SaveUserDataSession';
 
 const initialState: newUser = {
     user: {
@@ -10,6 +11,7 @@ const initialState: newUser = {
     },
     incomeDetails: [],
     expenseDetails: [],
+    budgetDetails: [],
     transDetails: []
 }
 
@@ -19,31 +21,52 @@ export const userSlice = createSlice({
     reducers: {
         setInitialState: (state, action: PayloadAction<newUser>) => {
             // initialise state here on login
+            // console.log('before', state.user)
             state.user = action.payload.user,
-                state.incomeDetails = action.payload.incomeDetails,
-                state.expenseDetails = action.payload.expenseDetails,
-                state.budgetDetails = action.payload.budgetDetails,
-                state.transDetails = action.payload.transDetails
+            state.incomeDetails = action.payload.incomeDetails,
+            state.expenseDetails = action.payload.expenseDetails,
+            state.budgetDetails = action.payload.budgetDetails,
+            state.transDetails = action.payload.transDetails
+            // console.log('after', state.user)
         },
-        updateIncomeArray: (_state, _action: PayloadAction<any>) => {
+        addToIncomeArray: (state, action: PayloadAction<incomeSource>) => {
             // update initial state here
-            // state.incomeDetails = [...state.incomeDetails, action.payload]
+            // console.log(action.payload)
+            state.incomeDetails?.push(action.payload)
+            // console.log('income-array', JSON.parse(JSON.stringify(state.incomeDetails)))
+            saveIncomeToSession(action.payload)
         },
-        updateExpenseArray: (_state, _action: PayloadAction<any>) => {
+        addToExpenseArray: (state, action: PayloadAction<expenseSource>) => {
             // update initial state here
-            // state.expenseDetails = [...state.expenseDetails, action.payload]
+            // console.log(action.payload)
+            state.expenseDetails?.push(action.payload)
+            // console.log('expense-array', JSON.parse(JSON.stringify(state.expenseDetails)))
+            saveExpenseToSession(action.payload)
         },
-        updateBudgetArray: (_state, _action: PayloadAction<any>) => {
+        addToBudgetArray: (state, action: PayloadAction<Budget>) => {
             // update initial state here
-            // state.budgetDetails = [...state.budgetDetails, action.payload]
+            // console.log(action.payload)
+            state.budgetDetails?.push(action.payload)
+            // console.log('budget-array', JSON.parse(JSON.stringify(state.budgetDetails)))
+            saveBudgetToSession(action.payload)
         },
-        updateTansactionArray: (_state, _action: PayloadAction<any>) => {
+        addIncomeToTansactionArray: (state, action: PayloadAction<transHistory>) => {
             // update initial state here
-            // state.transDetails = [...state.transDetails, action.payload]
+            // console.log(action.payload)
+            state.transDetails?.push(action.payload)
+            // console.log('history-array', JSON.parse(JSON.stringify(state.transDetails)))
+            saveTransactionToSession(action.payload)
+        },
+        addExpenseToTansactionArray: (state, action: PayloadAction<transHistory>) => {
+            // update initial state here
+            // console.log(action.payload)
+            state.transDetails?.push(action.payload)
+            // console.log('history-array', JSON.parse(JSON.stringify(state.transDetails)))
+            saveTransactionToSession(action.payload)
         }
     }
 })
 
-export const { setInitialState, updateIncomeArray, updateExpenseArray, updateBudgetArray, updateTansactionArray } = userSlice.actions
+export const { setInitialState, addToIncomeArray, addToExpenseArray, addToBudgetArray, addIncomeToTansactionArray, addExpenseToTansactionArray } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,11 +1,46 @@
 import { Button, Container, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { newUser, transHistory } from '../utils/interface/types';
+import { useNavigate } from 'react-router-dom';
+import { fetchData } from '../utils/customHooks/fetchData';
+import { useDispatch } from 'react-redux';
+import { addExpenseToTansactionArray, addToExpenseArray } from '../redux/slices/userSlice';
+import dayjs from 'dayjs';
 
 const Expense = () => {
+    const [_userData, setUserData] = useState<newUser | null>(null);
     const { control, handleSubmit } = useForm();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = fetchData();
+            console.log(data, `log`)
+            if (data) {
+                setUserData(data);
+                // console.log(data)
+                // console.log(userData)
+            }
+            else{
+                navigate('/login')
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const onSubmit = (data: any) => {
-        console.log(data);
+        // console.log(data);
+        dispatch(addToExpenseArray(data))
+        const newObject:transHistory = {
+            date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+            type: data.expenseType,
+            amount: data.amount
+        }
+        // console.log(newObject)
+        dispatch(addExpenseToTansactionArray(newObject))
     };
 
     return (
