@@ -1,9 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Budget, expenseSource, incomeSource, newUser, transHistory } from '../../utils/interface/types';
+import { Budget, expenseSource, incomeSource, newUser, transHistory, UserState } from '../../utils/interface/types';
 import { deleteBudgetSession, deleteExpenseSession, deleteIncomeSession, saveBudgetToSession, saveExpenseToSession, saveIncomeToSession, saveTransactionToSession } from '../../utils/SaveUserDataSession';
 
-const initialState: newUser = {
+const fetchCurrentUser = (): newUser | null => {
+    const storedUser = sessionStorage.getItem('currentUser');
+    return storedUser ? JSON.parse(storedUser) as newUser : null;
+};
+
+const initialState: UserState = {
     user: {
         name: '',
         email: '',
@@ -12,7 +17,8 @@ const initialState: newUser = {
     incomeDetails: [],
     expenseDetails: [],
     budgetDetails: [],
-    transDetails: []
+    transDetails: [],
+    currentUser: fetchCurrentUser()!
 }
 
 export const userSlice = createSlice({

@@ -6,23 +6,24 @@ import { incomeSource, newUser, transHistory } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../utils/customHooks/fetchData';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToIncomeArray, addIncomeToTansactionArray, deleteIncome, setInitialState } from '../redux/slices/userSlice';
 import dayjs from 'dayjs'
-import { useAuth } from '../utils/customHooks/useAuth';
+// import { useAuth } from '../utils/customHooks/useAuth';
+import { RootState } from '../redux/store';
 
 const Income = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
     // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    const { currentUser } = useAuth()
+    const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
     const { control, handleSubmit, reset } = useForm<incomeSource>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
 
-    dispatch(setInitialState(currentUser!))
-
+    
     useEffect(() => {
+        dispatch(setInitialState(currentUser!))
         const fetchUserData = () => {
             const data = fetchData();
             // console.log(data, `log`)
@@ -38,7 +39,7 @@ const Income = () => {
         };
 
         fetchUserData();
-    }, [currentUser]);
+    }, [currentUser, dispatch, navigate]);
 
     const onSubmit: SubmitHandler<incomeSource> = (data) => {
         // console.log(data.incomeType, data.amount);
