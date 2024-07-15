@@ -5,7 +5,7 @@ import Register from '../pages/User/Register';
 import Login from '../pages/User/Login';
 import ProfilePage from '../pages/Profile/Profile';
 import {TransHistoryDetails} from '../pages/Dashboard/TransactionsDetails';
-import { TransHistoryDetails } from '../pages/Dashboard/TransactionsDetails';
+// import { TransHistoryDetails } from '../pages/Dashboard/TransactionsDetails';
 import Income from '../pages/Income';
 import Expense from '../pages/Expense';
 import BudgetPage from '../pages/Budget';
