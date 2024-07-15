@@ -14,6 +14,7 @@ import CommonButton from '../../components/common/CommonButton';
 import GridPattern from '../../components/landing/GridPattern';
 import { cn } from '../../lib/utils';
 import Navbar from '../../components/common/Navbar';
+import { BorderBeam } from '../../components/landing/BorderBeam';
 
 
 
@@ -117,30 +118,31 @@ const Register = () => {
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
                         fontWeight: 'bold',
-                        mt: 16,
+                        mt: 19,
                     }}>
                         Let's Register You! 🚀
                     </Typography>
                 </Toolbar>
             </AppBar>
 
+
             <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
+                <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
+                    <GridPattern
+                        width={40}
+                        height={40}
+                        x={0}
+                        y={0}
+                        className={cn(
+                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                        "absolute inset-0 z-0",
+                        "animate-pulse"
+                        )}
+                    />
 
-            <GridPattern
-                width={40}
-                height={40}
-                x={0}
-                y={0}
-                className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
-                "absolute inset-0 z-0",
-                "animate-pulse"
-                )}
-            />
 
-            <Box sx={{ bgcolor: '#f5f5f5', p: 4, borderRadius: 3 }}>
-                <Grid container spacing={2}>
+               <Box sx={{ bgcolor: '#f5f5f8', p: 4, borderRadius: 4,}}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Controller
                             name="name"
@@ -240,16 +242,22 @@ const Register = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <CommonButton type="submit" >
+                            <BorderBeam 
+                                size={90} 
+                                duration={12} 
+                                delay={9} 
+                                            
+                                        />
                             SignUp!
                         </CommonButton>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', color: '#555' }}>
+                        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', color: '#1b263b' }}>
                         Already have an account? 🎯{' '}
                             <Typography
                                 component="span"
                                 sx={{
-                                    color: '#d00000',
+                                    color: '#1b263b',
                                     fontWeight: 'bold',
                                     textDecoration: 'none',
                                     cursor: 'pointer',

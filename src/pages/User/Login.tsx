@@ -13,6 +13,10 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CommonButton from '../../components/common/CommonButton';
 import { setInitialState } from '../../redux/slices/userSlice';
 import {useDispatch} from 'react-redux'
+import { BorderBeam } from '../../components/landing/BorderBeam';
+import Navbar from '../../components/common/Navbar';
+import GridPattern from '../../components/landing/GridPattern';
+import { cn } from '../../lib/utils';
 // import CommonButton from '../../components/common/CommonButton';
 
 const Login = () => {
@@ -86,7 +90,8 @@ const Login = () => {
         return <>Loading....</>
     }
     return (
-        <>
+        <>  
+           <Navbar />
             <AppBar
                 position="static"
                 sx={{
@@ -102,7 +107,8 @@ const Login = () => {
                         flexGrow: 1,
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        mt: 19,
                     }}>
                         Welcome Back! 👋
                     </Typography>
@@ -111,7 +117,18 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
-                    <Box sx={{ bgcolor: '#f5f5f5', p: 4, borderRadius: 3 }}>
+                <GridPattern
+                        width={40}
+                        height={40}
+                        x={0}
+                        y={0}
+                        className={cn(
+                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                        "absolute inset-0 z-0",
+                        "animate-pulse"
+                        )}
+                    />
+                    <Box sx={{ bgcolor: '#f5f5f8', p: 4, borderRadius: 3 }}>
                         <Grid container spacing={2}>
 
                             <Grid item xs={12}>
@@ -185,16 +202,22 @@ const Login = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <CommonButton type="submit" >
+                                    <BorderBeam 
+                                    size={90} 
+                                    duration={12} 
+                                    delay={9} 
+                                                
+                                        />
                                     Login
                                 </CommonButton>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="body2" sx={{ mt: 2, textAlign: 'center', color: '#555' }}>
-                                    Don’t have an account?{' '}
+                                    Don’t have an account?💫{' '}
                                     <Typography
                                         component="span"
                                         sx={{
-                                            color: '#d00000',
+                                            color: '#1b263b',
                                             fontWeight: 'bold',
                                             textDecoration: 'none',
                                             cursor: 'pointer',

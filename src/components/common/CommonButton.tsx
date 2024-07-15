@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import Button from "@mui/material/Button";
+import { BorderBeam } from '../landing/BorderBeam';
 // import Loader from './Loader';
 
 interface CustomButtonProps {
@@ -48,6 +49,7 @@ const CommonButton: React.FC<CustomButtonProps> = ({
           {children}
           {/* {loading && <Loader />} */}
         </Button>
+        
     );
 };
 
