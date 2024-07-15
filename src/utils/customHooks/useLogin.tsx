@@ -21,6 +21,7 @@ const useLogin = async (loginUser: LoginFormInput) => {
            sessionStorage.setItem("currentUser", userString);
             return existingUser;
         } else {
+            throw new Error(`User not found`)
             console.log(`User not found`);
         }
     } catch (error) {
