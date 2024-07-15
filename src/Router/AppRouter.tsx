@@ -4,6 +4,9 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import Register from '../pages/User/Register';
 import Login from '../pages/User/Login';
 import ProfilePage from '../pages/Profile/Profile';
+// import {TransHistoryDetails} from '../pages/Dashboard/TransactionsDetails';
+import { TransHistoryDetails } from '../pages/Dashboard/TransactionsDetails';
+
 
 const user = {
     name: "John Doe",
@@ -18,6 +21,8 @@ const AppRouter = () => (
 
             <Route path="/login" element={<Login/>} />
             <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path='/transcation-details' element={<TransHistoryDetails />} />
+
             {/* <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} /> */}
             {/* Add more routes as needed */}
