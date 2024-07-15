@@ -1,22 +1,29 @@
-import { Button, Container, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material';
-import { useForm, Controller } from 'react-hook-form';
+import { Button, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Budget, newUser } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils/customHooks/fetchData';
 import { useDispatch } from 'react-redux';
-import { addToBudgetArray } from '../redux/slices/userSlice';
+import { addToBudgetArray, deleteBudget, setInitialState } from '../redux/slices/userSlice';
+import { useAuth } from '../utils/customHooks/useAuth';
 
 const BudgetPage = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
-    const { control, handleSubmit } = useForm();
+    // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
+    const {currentUser} = useAuth()
+    const { control, handleSubmit, reset } = useForm<Budget>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    dispatch(setInitialState(currentUser!))
 
     useEffect(() => {
         const fetchUserData = async () => {
             const data = fetchData();
-            console.log(data, `log`)
+            // console.log(data, `log`)
             if (data) {
                 setUserData(data);
                 // console.log(data)
@@ -28,15 +35,27 @@ const BudgetPage = () => {
         };
 
         fetchUserData();
-    }, []);
+    }, [currentUser]);
 
-    const onSubmit = (data: any) => {
+    const onSubmit:SubmitHandler<Budget> = (data) => {
         // console.log(data);
         const newObject:Budget = {
-            type: data.budgetType,
+            type: data.type,
             amount: data.amount
         }
         dispatch(addToBudgetArray(newObject))
+        reset()
+    };
+
+    const handleEdit = (id: number) => {
+        // Handle edit functionality
+        console.log(`Edit item with id ${id}`);
+    };
+
+    const handleDelete = (id: number) => {
+        // Handle delete functionality
+        console.log(`Delete item with id ${id}`);
+        dispatch(deleteBudget(id))
     };
 
     return (
@@ -49,7 +68,7 @@ const BudgetPage = () => {
                     {/* <InputLabel id="budget-type-label">Budget Type</InputLabel> */}
                     <Typography fontSize={15} color={'GrayText'}>Budget Type</Typography>
                     <Controller
-                        name="budgetType"
+                        name="type"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
@@ -98,6 +117,21 @@ const BudgetPage = () => {
                 </Button>
             </form>
             {/* here comes the list of Budgets... */}
+            {
+                currentUser?.budgetDetails?.map((item, indx) => (
+                    <ListItem key={indx}>
+                        <ListItemText primary={item.type} secondary={`Amount: ${item.amount}`} />
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)}>
+                                <EditIcon />
+                            </IconButton>
+                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                ))
+            }
         </Container>
     )
 }

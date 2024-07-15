@@ -76,3 +76,36 @@ export function saveTransactionToSession (data:transHistory) {
     // call a function to save current user in IndexedDB
     saveToIndexedDB(currentUser)
 }
+
+export function deleteIncomeSession (data: incomeSource[]){
+    const currentUser:newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
+
+    currentUser.incomeDetails = data
+
+    sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
+
+    // save to IndexedDB
+    saveToIndexedDB(currentUser)
+}
+
+export function deleteExpenseSession (data: expenseSource[]){
+    const currentUser:newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
+
+    currentUser.expenseDetails = data
+
+    sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
+
+    // save to IndexedDB
+    saveToIndexedDB(currentUser)
+}
+
+export function deleteBudgetSession (data: Budget[]){
+    const currentUser:newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
+
+    currentUser.budgetDetails = data
+
+    sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
+
+    // save to IndexedDB
+    saveToIndexedDB(currentUser)
+}

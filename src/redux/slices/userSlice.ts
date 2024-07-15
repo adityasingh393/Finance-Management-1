@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Budget, expenseSource, incomeSource, newUser, transHistory } from '../../utils/interface/types';
-import { saveBudgetToSession, saveExpenseToSession, saveIncomeToSession, saveTransactionToSession } from '../../utils/SaveUserDataSession';
+import { deleteBudgetSession, deleteExpenseSession, deleteIncomeSession, saveBudgetToSession, saveExpenseToSession, saveIncomeToSession, saveTransactionToSession } from '../../utils/SaveUserDataSession';
 
 const initialState: newUser = {
     user: {
@@ -22,11 +22,12 @@ export const userSlice = createSlice({
         setInitialState: (state, action: PayloadAction<newUser>) => {
             // initialise state here on login
             // console.log('before', state.user)
-            state.user = action.payload.user,
-            state.incomeDetails = action.payload.incomeDetails,
-            state.expenseDetails = action.payload.expenseDetails,
-            state.budgetDetails = action.payload.budgetDetails,
-            state.transDetails = action.payload.transDetails
+            // console.log('In slice', action.payload)
+            state.user = action.payload?.user,
+            state.incomeDetails = action.payload?.incomeDetails,
+            state.expenseDetails = action.payload?.expenseDetails,
+            state.budgetDetails = action.payload?.budgetDetails,
+            state.transDetails = action.payload?.transDetails
             // console.log('after', state.user)
         },
         addToIncomeArray: (state, action: PayloadAction<incomeSource>) => {
@@ -63,10 +64,31 @@ export const userSlice = createSlice({
             state.transDetails?.push(action.payload)
             // console.log('history-array', JSON.parse(JSON.stringify(state.transDetails)))
             saveTransactionToSession(action.payload)
+        },
+        deleteIncome: (state, action: PayloadAction<number>) => {
+            console.log(JSON.parse(JSON.stringify(state.incomeDetails)))
+            state.incomeDetails = state.incomeDetails?.filter((_i, indx)=>indx !== action.payload)
+            console.log(JSON.parse(JSON.stringify(state.incomeDetails)))
+            // save to session
+            deleteIncomeSession(JSON.parse(JSON.stringify(state.incomeDetails)))
+        },
+        deleteExpense: (state, action: PayloadAction<number>) => {
+            console.log(JSON.parse(JSON.stringify(state.expenseDetails)))
+            state.expenseDetails = state.expenseDetails?.filter((_i, indx)=>indx !== action.payload)
+            console.log(JSON.parse(JSON.stringify(state.expenseDetails)))
+            // save to session
+            deleteExpenseSession(JSON.parse(JSON.stringify(state.expenseDetails)))
+        },
+        deleteBudget: (state, action: PayloadAction<number>) => {
+            console.log(JSON.parse(JSON.stringify(state.budgetDetails)))
+            state.budgetDetails = state.budgetDetails?.filter((_i, indx)=>indx !== action.payload)
+            console.log(JSON.parse(JSON.stringify(state.budgetDetails)))
+            // save to session
+            deleteBudgetSession(JSON.parse(JSON.stringify(state.budgetDetails)))
         }
     }
 })
 
-export const { setInitialState, addToIncomeArray, addToExpenseArray, addToBudgetArray, addIncomeToTansactionArray, addExpenseToTansactionArray } = userSlice.actions
+export const { setInitialState, addToIncomeArray, addToExpenseArray, addToBudgetArray, addIncomeToTansactionArray, addExpenseToTansactionArray, deleteIncome, deleteExpense, deleteBudget } = userSlice.actions
 
 export default userSlice.reducer
