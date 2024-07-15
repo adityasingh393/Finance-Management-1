@@ -6,22 +6,23 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { expenseSource, newUser, transHistory } from '../utils/interface/types';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils/customHooks/fetchData';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addExpenseToTansactionArray, addToExpenseArray, deleteExpense, setInitialState } from '../redux/slices/userSlice';
 import dayjs from 'dayjs';
-import { useAuth } from '../utils/customHooks/useAuth';
+// import { useAuth } from '../utils/customHooks/useAuth';
+import { RootState } from '../redux/store';
 
 const Expense = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
     // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    const {currentUser} = useAuth()
+    const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
     const { control, handleSubmit, reset } = useForm<expenseSource>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    dispatch(setInitialState(currentUser!))
-
+    
     useEffect(() => {
+        dispatch(setInitialState(currentUser!))
         const fetchUserData = async () => {
             const data = fetchData();
             // console.log(data, `log`)
@@ -36,7 +37,7 @@ const Expense = () => {
         };
 
         fetchUserData();
-    }, [currentUser]);
+    }, [currentUser, dispatch, navigate]);
 
     const onSubmit:SubmitHandler<expenseSource> = (data) => {
         // console.log(data);

@@ -6,21 +6,22 @@ import { Budget, newUser } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils/customHooks/fetchData';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToBudgetArray, deleteBudget, setInitialState } from '../redux/slices/userSlice';
-import { useAuth } from '../utils/customHooks/useAuth';
+// import { useAuth } from '../utils/customHooks/useAuth';
+import { RootState } from '../redux/store';
 
 const BudgetPage = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
     // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    const {currentUser} = useAuth()
+    const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
     const { control, handleSubmit, reset } = useForm<Budget>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    dispatch(setInitialState(currentUser!))
-
+    
     useEffect(() => {
+        dispatch(setInitialState(currentUser!))
         const fetchUserData = async () => {
             const data = fetchData();
             // console.log(data, `log`)
