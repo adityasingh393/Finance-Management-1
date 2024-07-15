@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
         alignItems="center"
         justifyContent="center"
         height="100%"
-        mt={80}
+        mt={88}
       >
         <Typography 
           variant="h4" 
@@ -235,16 +235,16 @@ const Hero: React.FC = () => {
                   className="absolute inset-0 z-10" 
                 />
                <img 
-              src="/src/pages/Landing/hero.png" 
-              alt="Hero" 
-              className="w-full h-auto object-cover shadow-lg" 
-              style={{
-                boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
-                borderRadius: '0.75rem',  // Rounded corners
-                filter: 'blur(0px)',  // No blur effect (adjust if needed)
-              }}
+                  src="/src/pages/Landing/hero.png" 
+                  alt="Hero" 
+                  className="w-full h-auto object-cover shadow-lg" 
+                  style={{
+                    boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
+                    borderRadius: '0.75rem',  // Rounded corners
+                    filter: 'blur(0px)',  // No blur effect (adjust if needed)
+                  }}
             />
-        </Box>
+          </Box>
         </Box>
         <Footer />
       </Box>

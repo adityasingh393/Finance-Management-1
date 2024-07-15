@@ -29,11 +29,11 @@ const Footer: React.FC = () => {
             © {new Date().getFullYear()} Financely. All rights reserved.
           </Typography>
           <CommonButton
-            variant="contained"
-            onClick={() => window.open('https://github.com/adityasingh393/Finance-Management-1', '_blank')}
-          >
-            Contribute on GitHub <GitHubIcon style={{ marginLeft: '8px' }} />
-          </CommonButton>
+          variant="contained"
+          onClick={() => window.open('https://github.com/adityasingh393/Finance-Management-1', '_blank')}
+        >
+          Contribute on GitHub <GitHubIcon style={{ marginLeft: '8px' }} />
+        </CommonButton>
 
         </Box>
       </Container>
