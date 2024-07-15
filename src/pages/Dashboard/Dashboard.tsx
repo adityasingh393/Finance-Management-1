@@ -8,7 +8,7 @@ import BudgetProgress from "./BudgetProgress";
 import { newUser, transHistory, incomeSource, expenseSource } from "../../utils/interface/types";
 import "../../styles/Dashboard.css";
 import Loader from "../../components/common/Loader";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState<newUser | null>(null);
   const [latestTransactions, setLatestTransactions] = useState<transHistory[]>([]);
 
-  const navigate=useNavigate();
+  // const navigate=useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -73,9 +73,9 @@ const Dashboard: React.FC = () => {
   };
 
   if (!userData) {
-    setTimeout(() => {
-      navigate('/login');
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate('/login');
+    // }, 3000);
     return <Loader/>;
   }
 
