@@ -11,6 +11,11 @@ import { useState } from 'react';
 import useRegister from '../../utils/customHooks/useRegisterForm';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CommonButton from '../../components/common/CommonButton';
+import GridPattern from '../../components/landing/GridPattern';
+import { cn } from '../../lib/utils';
+import Navbar from '../../components/common/Navbar';
+
+
 
 const Register = () => {
     // const dispatch = useDispatch();
@@ -94,7 +99,8 @@ const Register = () => {
         return <>Loading....</>
     }
     return (
-        <>
+        <> 
+            <Navbar />
             <AppBar
                 position="static"
                 sx={{
@@ -102,7 +108,7 @@ const Register = () => {
                     color: '#03071e',
                     borderRadius: '10px',
                     mb: 4,
-                    boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
+                    boxShadow: '0', 
                 }}
             >
                 <Toolbar>
@@ -110,7 +116,8 @@ const Register = () => {
                         flexGrow: 1,
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        mt: 16,
                     }}>
                         Let's Register You! 🚀
                     </Typography>
@@ -119,6 +126,19 @@ const Register = () => {
 
             <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Container maxWidth="sm"> {/* Adjust maxWidth as needed */}
+
+            <GridPattern
+                width={40}
+                height={40}
+                x={0}
+                y={0}
+                className={cn(
+                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                "absolute inset-0 z-0",
+                "animate-pulse"
+                )}
+            />
+
             <Box sx={{ bgcolor: '#f5f5f5', p: 4, borderRadius: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>

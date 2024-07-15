@@ -1,4 +1,3 @@
-// src/router/AppRouter.tsx
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Here from '../pages/Landing/Hero';
 import Dashboard from '../pages/Dashboard/Dashboard';
@@ -8,7 +7,12 @@ import Income from '../pages/Income';
 import Expense from '../pages/Expense';
 import BudgetPage from '../pages/Budget';
 
-
+const user = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    profilePicture: "https://via.placeholder.com/150",
+  };
+  
 const AppRouter = () => (
     <Router>
         <Routes>
