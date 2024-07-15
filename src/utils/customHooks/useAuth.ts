@@ -18,7 +18,7 @@ export const useAuth = () => {
         }
 
         getCurrentUser()
-    }, [currentUser])
+    }, [])
 
     return {currentUser}
 }
