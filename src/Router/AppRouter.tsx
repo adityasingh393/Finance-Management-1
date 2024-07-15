@@ -4,9 +4,11 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import Register from '../pages/User/Register';
 import Login from '../pages/User/Login';
 import ProfilePage from '../pages/Profile/Profile';
-// import {TransHistoryDetails} from '../pages/Dashboard/TransactionsDetails';
+import {TransHistoryDetails} from '../pages/Dashboard/TransactionsDetails';
 import { TransHistoryDetails } from '../pages/Dashboard/TransactionsDetails';
-
+import Income from '../pages/Income';
+import Expense from '../pages/Expense';
+import BudgetPage from '../pages/Budget';
 
 const user = {
     name: "John Doe",
@@ -29,6 +31,12 @@ const AppRouter = () => (
             <Route path="/signup" element={<Register />} /> 
             <Route path="/profile-page" element={<ProfilePage user={user}/>}/>
            <Route path="/login" element={<Login />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path='/income' element={<Income />} />
+            <Route path='/expense' element={<Expense />} />
+            <Route path='/budget' element={<BudgetPage />} />
         </Routes>
     </Router>
 );
