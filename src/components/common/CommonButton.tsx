@@ -1,46 +1,53 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Button from "@mui/material/Button";
 // import Loader from './Loader';
 
 interface CustomButtonProps {
-    type?: "button" | "submit" | "reset" | undefined;
+    type?: "button" | "submit" | "reset";
     disabled?: boolean;
     loading?: boolean;
     onClick?: () => void;
-    children: string
+    children: ReactNode; // Change from string to ReactNode
+    variant?: "contained" | "outlined" | "text"; // Add variant prop
 }
 
-const CommonButton: React.FC<CustomButtonProps> = ({ type = "button", disabled = false, loading = false, onClick, children }) => {
+const CommonButton: React.FC<CustomButtonProps> = ({
+    type = "button",
+    disabled = false,
+    loading = false,
+    onClick,
+    children,
+    variant = "contained", // Set a default value for variant
+}) => {
     return (
         <Button
           type={type}
-          variant="contained"
+          variant={variant} // Use the variant prop
           disabled={disabled || loading}
           size="large"
           onClick={onClick}
           sx={{
-            mt:'18px',
-            mb:'12px',
-            backgroundColor: '#03071e',
+            mt: '18px',
+            mb: '12px',
+            backgroundColor: '#0d1b2a',
             color: 'white',
-            '&:hover': { backgroundColor: '#d00000' },
-            height: 50,  // Adjusted height for a smaller button
-            fontSize: '1rem',
-            fontWeight:'bold',  // Adjusted font size for a smaller button
-            width: '100%',  
-            maxWidth: 250,  // Adjusted max width for a smaller button
+            '&:hover': { backgroundColor: '#be95c4' },
+            height: 50,
+            fontSize: '0.9rem',
+            fontWeight: '700',
+            fontFamily: 'Inter, sans-serif',
+            width: '100%',
+            maxWidth: 280,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: '50px',
-            // border: '2px break black',  // Added 2px black border
-            mx: 'auto',  // Center the button horizontally
+            mx: 'auto',
           }}
         >
-  {children}
-  {/* {loading && <Loader />} */}
-</Button>
-
+          {children}
+          {/* {loading && <Loader />} */}
+        </Button>
     );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box, Button, Container } from '@mui/material';
+import { Typography, Box, Container } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CommonButton from '../../components/common/CommonButton';
 
@@ -30,12 +30,11 @@ const Footer: React.FC = () => {
           </Typography>
           <CommonButton
             variant="contained"
-            color="primary"
-            
             onClick={() => window.open('https://github.com/adityasingh393/Finance-Management-1', '_blank')}
           >
-            Contribute on GitHub
+            Contribute on GitHub <GitHubIcon style={{ marginLeft: '8px' }} />
           </CommonButton>
+
         </Box>
       </Container>
     </Box>
