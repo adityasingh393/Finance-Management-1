@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
         alignItems="center"
         justifyContent="center"
         height="100%"
-        mt={80}
+        mt={88}
       >
         <Typography 
           variant="h4" 
