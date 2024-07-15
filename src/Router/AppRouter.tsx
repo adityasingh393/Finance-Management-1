@@ -19,7 +19,7 @@ const user = {
   
 const AppRouter = () => (
     <Router>
-    <Navbar />
+  <Navbar />
     <Routes>
       <Route path="/" element={<Here />} />
       <Route path="/login" element={<Login />} />
