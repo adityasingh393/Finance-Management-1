@@ -24,7 +24,7 @@ const Expense = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             const data = fetchData();
-            console.log(data, `log`)
+            // console.log(data, `log`)
             if (data) {
                 setUserData(data);
                 // console.log(data)
