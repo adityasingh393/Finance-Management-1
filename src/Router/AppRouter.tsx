@@ -24,14 +24,9 @@ const AppRouter = () => (
             <Route path="/login" element={<Login/>} />
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path='/transcation-details' element={<TransHistoryDetails />} />
-
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} /> */}
-            {/* Add more routes as needed */}
             <Route path="/signup" element={<Register />} /> 
             <Route path="/profile-page" element={<ProfilePage user={user}/>}/>
            <Route path="/login" element={<Login />} />
-            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path='/income' element={<Income />} />

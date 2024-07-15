@@ -5,10 +5,10 @@ import LatestTransactions from "./LatestTransactions";
 import IncomePieChart from "./IncomePieChart";
 import ExpensePieChart from "./ExpensePieChart";
 import BudgetProgress from "./BudgetProgress";
+import TransactionChart from "./TransactionChart"; // Import TransactionChart
 import { newUser, transHistory, incomeSource, expenseSource } from "../../utils/interface/types";
 import "../../styles/Dashboard.css";
 import Loader from "../../components/common/Loader";
-import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,12 +16,10 @@ const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState<newUser | null>(null);
   const [latestTransactions, setLatestTransactions] = useState<transHistory[]>([]);
 
-  const navigate=useNavigate();
-
   useEffect(() => {
     const fetchUserData = async () => {
-      const data =  fetchData();
-      console.log(data,`log`)
+      const data = await fetchData();
+      console.log(data, `log`);
       if (data) {
         setUserData(data);
         setLatestTransactions(data.transDetails?.slice(-5).reverse() || []);
@@ -73,11 +71,10 @@ const Dashboard: React.FC = () => {
   };
 
   if (!userData) {
-    setTimeout(() => {
-      navigate('/login');
-    }, 3000);
-    return <Loader/>;
+    return <Loader />;
   }
+
+  const { incomeDetails = [], expenseDetails = [], budgetDetails = [], transDetails = [] } = userData;
 
   return (
     <div className="dashboard-container">
@@ -86,11 +83,11 @@ const Dashboard: React.FC = () => {
         <div className="left-section">
           <div className="piechart">
             <IncomePieChart
-              incomeDetails={userData.incomeDetails || []}
+              incomeDetails={incomeDetails}
               generatePieChartData={generatePieChartData}
             />
             <ExpensePieChart
-              expenseDetails={userData.expenseDetails || []}
+              expenseDetails={expenseDetails}
               generatePieChartData={generatePieChartData}
             />
           </div>
@@ -98,13 +95,17 @@ const Dashboard: React.FC = () => {
             <h2>Latest Transactions</h2>
             <LatestTransactions transactions={latestTransactions} />
           </div>
+          <div className="transaction-chart">
+            <h2>Transaction History</h2>
+            <TransactionChart transactions={transDetails} />
+          </div>
         </div>
         <div className="right-section">
           <div className="budget-progress">
             <h2>Budget Progress</h2>
             <BudgetProgress
-              budgetDetails={userData.budgetDetails || []}
-              expenseDetails={userData.expenseDetails || []}
+              budgetDetails={budgetDetails}
+              expenseDetails={expenseDetails}
             />
           </div>
         </div>
