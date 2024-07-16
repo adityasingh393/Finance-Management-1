@@ -1,6 +1,5 @@
-import { AppBar, Button, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { AppBar, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Budget, newUser } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
@@ -13,38 +12,44 @@ import { cn } from '../lib/utils';
 import CommonButton from '../components/common/CommonButton';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdDeleteSweep } from 'react-icons/md';
+import { Incomedata } from '../utils/dummyData';
 // import { useAuth } from '../utils/customHooks/useAuth';
 // import { RootState } from '../redux/store';
 
 const BudgetPage = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
-   const users=fetchData();
-    const { control, handleSubmit, reset } = useForm<Budget>();
     const navigate = useNavigate()
+    const { control, handleSubmit, reset } = useForm<Budget>();
     const dispatch = useDispatch()
+    const users = fetchData();
+    useEffect(() => {
+        if (!users) {
+            navigate(`/login`);
+        }
+    }, [users, navigate]);
 
-    useEffect(()=>{
-         setUserData(users);
-    },[])
+    useEffect(() => {
+        setUserData(users);
+    }, [])
 
-    const onSubmit:SubmitHandler<Budget> = (data) => {
+    const onSubmit: SubmitHandler<Budget> = (data) => {
         // console.log(data);
-        const existingBudget=_userData?.budgetDetails?.find((item)=>item.type=data.type);
+        const existingBudget = _userData?.budgetDetails?.find((item) => item.type = data.type);
         let num1;
-        if(!existingBudget){
-            num1=0;
+        if (!existingBudget) {
+            num1 = 0;
         }
-        else{
-            num1=Number(existingBudget.amount);
+        else {
+            num1 = Number(existingBudget.amount);
         }
-        let  num2=Number(data.amount)
+        let num2 = Number(data.amount)
 
-        let updateamount=num1+num2;
-        const newBudget:Budget={
-            type:data.type,
-            amount:updateamount.toString(),
+        let updateamount = num1 + num2;
+        const newBudget: Budget = {
+            type: data.type,
+            amount: updateamount.toString(),
         }
-        
+
         dispatch(addToBudgetArray(newBudget))
         const updatedUserData = fetchData();
         if (updatedUserData) {
@@ -65,10 +70,10 @@ const BudgetPage = () => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
         dispatch(deleteBudget(id));
-        const storeuser=fetchData();
-        if(storeuser){
+        const storeuser = fetchData();
+        if (storeuser) {
             setUserData(storeuser);
-        }else{
+        } else {
             navigate(`/login`);
         }
     };
@@ -76,17 +81,17 @@ const BudgetPage = () => {
     return (
 
         <Container maxWidth="sm">
-                  <GridPattern
-                        width={40}
-                        height={40}
-                        x={0}
-                        y={0}
-                        className={cn(
-                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
-                        "absolute inset-0 z-0",
-                        "animate-pulse"
-                        )}
-                    />
+            <GridPattern
+                width={40}
+                height={40}
+                x={0}
+                y={0}
+                className={cn(
+                    "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                    "absolute inset-0 z-0",
+                    "animate-pulse"
+                )}
+            />
             <AppBar
                 position="static"
                 sx={{
@@ -131,9 +136,14 @@ const BudgetPage = () => {
                                 required
                                 placeholder="Budget Type"
                             >
-                                <MenuItem value="Clothes">Clothes</MenuItem>
-                                <MenuItem value="Entertainment">Entertainment</MenuItem>
-                                <MenuItem value="Food">Food</MenuItem>
+                                <MenuItem value="" disabled sx={{ fontFamily: 'Inter, sans-serif' }}>
+                                    Select the Category
+                                </MenuItem>
+                                {Incomedata.map((item, index) => (
+                                    <MenuItem key={index} value={item} sx={{ fontFamily: 'Inter, sans-serif' }}>
+                                        {item}
+                                    </MenuItem>
+                                ))}
                                 {/* Add more income types as needed */}
                             </Select>
                         )}
@@ -185,7 +195,7 @@ const BudgetPage = () => {
                         }}
                     >
                         <ListItemText primary={item.type} secondary={`Amount: ${item.amount}`}
-                              primaryTypographyProps={{
+                            primaryTypographyProps={{
                                 sx: {
                                     fontWeight: 'bold',
                                     fontSize: '1.2rem',
@@ -200,20 +210,20 @@ const BudgetPage = () => {
                                     listStyleType: 'none',
                                 },
                             }}
-                             />
+                        />
                         <ListItemSecondaryAction
-                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            listStyleType: 'none',
-                        }}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                listStyleType: 'none',
+                            }}
                         >
                             <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)} sx={{ color: '#3f51b5', mr: 1 }}>
-                               <FaRegEdit />
+                                <FaRegEdit />
                             </IconButton>
                             <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)} sx={{ color: '#f50057' }}>
-                              <MdDeleteSweep />
+                                <MdDeleteSweep />
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
