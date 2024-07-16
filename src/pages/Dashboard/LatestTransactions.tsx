@@ -13,7 +13,7 @@ const LatestTransactions: React.FC<LatestTransactionsProps> = ({ transactions })
       <ul>
         {transactions.map((transaction, index) => (
           <li key={index} className="transaction-item">
-            {transaction.date} - {transaction.type} - ${transaction.amount}
+            {transaction.date} - {transaction.type} - ₹ {transaction.amount}
           </li>
         ))}
       </ul>

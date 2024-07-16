@@ -1,4 +1,4 @@
-import { Button, Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, ListItem, ListItemSecondaryAction, ListItemText } from '@mui/material';
+import { Button, Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, ListItem, ListItemSecondaryAction, ListItemText, AppBar, Toolbar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useEffect, useState } from 'react';
@@ -6,49 +6,59 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { expenseSource, newUser, transHistory } from '../utils/interface/types';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils/customHooks/fetchData';
-import { useDispatch, useSelector } from 'react-redux';
-import { addExpenseToTansactionArray, addToExpenseArray, deleteExpense, setInitialState } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+import { addExpenseToTansactionArray, addToExpenseArray, deleteExpense } from '../redux/slices/userSlice';
 import dayjs from 'dayjs';
+import { cn } from '../lib/utils';
+import GridPattern from '../components/landing/GridPattern';
 // import { useAuth } from '../utils/customHooks/useAuth';
-import { RootState } from '../redux/store';
+// import { RootState } from '../redux/store';
 
 const Expense = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
     // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
+    // const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
+    const users=fetchData();
     const { control, handleSubmit, reset } = useForm<expenseSource>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     
     useEffect(() => {
-        dispatch(setInitialState(currentUser!))
-        const fetchUserData = async () => {
-            const data = fetchData();
-            // console.log(data, `log`)
-            if (data) {
-                setUserData(data);
-                // console.log(data)
-                // console.log(userData)
-            }
-            else{
-                navigate('/login')
-            }
-        };
-
-        fetchUserData();
-    }, [currentUser, dispatch, navigate]);
+        setUserData(users);
+    }, []);
 
     const onSubmit:SubmitHandler<expenseSource> = (data) => {
         // console.log(data);
-        dispatch(addToExpenseArray(data))
+        const existingExpense=_userData?.expenseDetails?.find((item)=>item.expenseType===data.expenseType);
+        let num1;
+        if(!existingExpense){
+            num1=0;
+        }
+        else{
+            num1=Number(existingExpense.amount)
+        }
+        let num2=Number(data.amount);
+        let updateamount=num1+num2;
+        const newExpense:expenseSource={
+            expenseType:data.expenseType,
+            amount:updateamount.toString(),
+        }
+        dispatch(addToExpenseArray(newExpense))
         const newObject:transHistory = {
             date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
             type: data.expenseType,
-            amount: data.amount
+            amount: updateamount.toString(),
         }
         // console.log(newObject)
-        dispatch(addExpenseToTansactionArray(newObject))
+        dispatch(addExpenseToTansactionArray(newObject));
+        const updatedUserData=fetchData();
+        if(updatedUserData){
+            setUserData(updatedUserData);
+        }
+        else{
+            navigate(`/login`);
+        }
         reset()
     };
 
@@ -61,13 +71,52 @@ const Expense = () => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
         dispatch(deleteExpense(id))
+        const storeuser=fetchData();
+        if(storeuser){
+            setUserData(storeuser);
+        }else{
+            navigate(`/login`);
+        }
     };
 
     return (
         <Container maxWidth="sm">
-            <Typography variant="h4" align="center" gutterBottom>
-                Expense Form
-            </Typography>
+                  <GridPattern
+                        width={40}
+                        height={40}
+                        x={0}
+                        y={0}
+                        className={cn(
+                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                        "absolute inset-0 z-0",
+                        "animate-pulse"
+                        )}
+                    />
+            <AppBar
+                position="static"
+                sx={{
+                    background: 'white',
+                    color: '#03071e',
+                    borderRadius: '10px',
+                    mb: 4,
+                    boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
+                }}
+            >
+                <Toolbar>
+                    <Typography variant="h5" sx={{
+                        flexGrow: 1,
+                        textAlign: 'center',
+                        fontFamily: "Playwrite DK Uloopet",
+                        fontWeight: 'bold',
+                        mt: 19,
+                    }}>
+                        Expense Form 💰
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+
+            {/* form  */}
+            
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl fullWidth margin="normal">
                     {/* <InputLabel id="expense-type-label">Expense Type</InputLabel> */}
@@ -122,7 +171,7 @@ const Expense = () => {
             </form>
             {/* here comes the list of Expenses... */}
             {
-                currentUser?.expenseDetails?.map((item, indx) => (
+                _userData?.expenseDetails?.map((item, indx) => (
                     <ListItem key={indx}>
                         <ListItemText primary={item.expenseType} secondary={`Amount: ${item.amount}`} />
                         <ListItemSecondaryAction>
