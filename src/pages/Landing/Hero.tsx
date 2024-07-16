@@ -134,7 +134,7 @@ const Hero: React.FC = () => {
                   fontWeight: 900,
                 }}
               >
-                Financely?
+                PocketPal?
               </span>
             </Typography>
 

@@ -98,7 +98,17 @@ const Dashboard: React.FC = () => {
   const isEmpty = incomeDetails.length === 0 && expenseDetails.length === 0 && budgetDetails.length === 0 && transDetails.length === 0;
 
   if (isEmpty) {
-    return <p>Hi {currentUserName}, please add some data to view your dashboard.</p>;
+    return <Typography variant="h5" sx={{
+      flexGrow: 1,
+      textAlign: 'center',
+      fontFamily: "Playwrite DK Uloopet",
+      fontWeight: 'bold',
+      mt: 26,
+      color:'#495057'
+  }}>
+      Hi, {currentUserName} Kindly enter your transactions to <br /> view your dashboard.
+
+  </Typography>;
   }
 
   return (

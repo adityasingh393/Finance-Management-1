@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  AppBar,
   Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { fetchData } from '../../utils/customHooks/fetchData'; // Assuming fetchData returns a typed object
 import { transHistory } from '../../utils/interface/types';
 import { Incomedata, Expensedata, allCategories } from '../../utils/dummyData';
+import { cn } from '../../lib/utils';
+import GridPattern from '../../components/landing/GridPattern';
+import CommonButton from '../../components/common/CommonButton';
 
 interface Option {
   value: string;
@@ -66,11 +71,46 @@ export const TransHistoryDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <div className="sm:w-full sm:max-w-md">
+      <GridPattern
+        width={40}
+        height={40}
+        x={0}
+        y={0}
+        className={cn(
+          "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+          "absolute inset-0 z-0",
+          "animate-pulse"
+        )}
+      />
+      {/* <div className="sm:w-full sm:max-w-md">
         <Typography variant="h2" color="primary" align="left" gutterBottom>
-          Hi {user?.user.name}
+          
         </Typography>
-      </div>
+      </div> */}
+
+      <AppBar
+                position="static"
+                sx={{
+                    background: 'white',
+                    color: '#03071e',
+                    borderRadius: '10px',
+                  
+                    boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
+                }}
+            >
+                <Toolbar>
+                    <Typography variant="h5" sx={{
+                        flexGrow: 1,
+                        textAlign: 'center',
+                        fontFamily: "Playwrite DK Uloopet",
+                        fontWeight: 'bold',
+                        mt: 8,
+                    }}>
+                        Hi, {user?.user.name}
+
+                    </Typography>
+                </Toolbar>
+            </AppBar>
 
       <div className="mt-8 sm:w-full sm:max-w-md bg-white py-4 px-4 shadow sm:rounded-lg sm:px-6">
         <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
@@ -125,14 +165,12 @@ export const TransHistoryDetails: React.FC = () => {
 
           {/* Submit button */}
           <div className="flex justify-center">
-            <Button
+            <CommonButton
               type="submit"
               variant="contained"
-              color="primary"
-              className="w-full sm:w-auto py-2 px-4 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Submit
-            </Button>
+            </CommonButton>
           </div>
         </form>
       </div>

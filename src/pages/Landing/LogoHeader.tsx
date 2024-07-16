@@ -31,7 +31,7 @@ const LogoHeader: React.FC = () => {
           display: 'inline', // Display as inline to align parts horizontally
         }}
       >
-        Financely
+        PocketPal
         <Box
           component="span"
           sx={{

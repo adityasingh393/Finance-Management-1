@@ -26,13 +26,13 @@ const Footer: React.FC = () => {
             color="textSecondary" 
             sx={{ marginBottom: '1rem' }}
           >
-            © {new Date().getFullYear()} Financely. All rights reserved.
+            © {new Date().getFullYear()} PocketPal. All rights reserved.
           </Typography>
           <CommonButton
           variant="contained"
           onClick={() => window.open('https://github.com/adityasingh393/Finance-Management-1', '_blank')}
         >
-          Contribute on GitHub <GitHubIcon style={{ marginLeft: '8px' }} />
+          View Code on GitHub <GitHubIcon style={{ marginLeft: '8px' }} />
         </CommonButton>
 
         </Box>
