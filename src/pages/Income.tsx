@@ -1,4 +1,4 @@
-import { AppBar, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { incomeSource, newUser, transHistory } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
@@ -21,6 +21,12 @@ const Income = () => {
 
     const users = fetchData();
     const { control, handleSubmit, reset } = useForm<incomeSource>();
+
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [editAmount, setEditAmount] = useState<number | null>(null);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -81,11 +87,43 @@ const Income = () => {
         reset();
     };
 
-    const handleEdit = (id: number) => {
-        // Handle edit functionality
-        console.log(`Edit item with id ${id}`);
+    const handleEdit = (index: number) => {
+        setEditIndex(index);
+      setEditAmount(Number(_userData?.incomeDetails![index]?.amount)); // Set initial value for edit dialog
+      setEditDialogOpen(true);
     };
+    const handleEditSubmit = () => {
+        if (editIndex !== null && editAmount !== null) {
+          // Perform update action here
+          console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
+          const newObject:incomeSource = {
+              incomeType: _userData?.incomeDetails![editIndex]?.incomeType!,
+              amount: _userData?.incomeDetails![editIndex]?.amount!
+          }
+          console.log(newObject)
+          dispatch(addToIncomeArray(newObject));
 
+          const newTransaction: transHistory = {
+            date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
+            type: _userData?.incomeDetails![editIndex]?.incomeType!,
+            amount: _userData?.incomeDetails![editIndex]?.amount!// Use the submitted amount for transaction history
+        };
+
+        // Dispatch action to add transaction history
+        dispatch(addIncomeToTansactionArray(newTransaction));
+        const updatedUserData = fetchData();
+        if (updatedUserData) {
+            setUserData(updatedUserData);
+        } else {
+            navigate(`/login`);
+        }
+        //   onSubmit(newObject)
+          setEditDialogOpen(false);
+          
+        //   setForceRerender(forceRerender+1);
+          // location.reload()
+        }
+      };
     const handleDelete = (id: number) => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
@@ -280,6 +318,36 @@ const Income = () => {
 
                 ))
             }
+
+
+            {/* Edit Dialog */}
+            <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+                <DialogTitle>Edit Amount</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="New Amount"
+                        type="number"
+                        fullWidth
+                        value={editAmount || ''}
+                        onChange={(e) => setEditAmount(parseFloat(e.target.value))}
+                        InputProps={{
+                            inputProps: {
+                                min: 0
+                            }
+                        }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setEditDialogOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleEditSubmit} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
         </Container>
     )
 }
