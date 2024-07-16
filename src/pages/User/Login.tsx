@@ -35,11 +35,11 @@ const Login = () => {
 
         },
     });
-
+    const { login } = useLogin();
     const handleFormSubmit: SubmitHandler<LoginFormInput> = async (data) => {
         try {
             setLoading(true);
-            const loginUser = await useLogin(data); // Pass newUserObject here
+            const loginUser = await login(data); // Pass newUserObject here
             console.log(loginUser);
             const currentUser:newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
             console.log('current-user', currentUser.user)

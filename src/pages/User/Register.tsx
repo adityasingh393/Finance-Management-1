@@ -33,6 +33,7 @@ const Register = () => {
 
         },
     });
+    const { register} = useRegister();
 
     const handleFormSubmit: SubmitHandler<userDetails> = async (data) => {
         try {
@@ -51,7 +52,7 @@ const Register = () => {
                 budgetDetails: []
             };
 
-            const result = await useRegister(newUserObject); // Pass newUserObject here
+            const result = await register(newUserObject); // Pass newUserObject here
             console.log(result);
             navigate(`/login`)
             toast.success('Registration successful!', {
