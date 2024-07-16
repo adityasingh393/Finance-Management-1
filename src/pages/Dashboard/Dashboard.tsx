@@ -46,7 +46,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const generatePieChartData = (data: (incomeSource | expenseSource)[], key: "incomeType" | "expenseType") => {
     const labels = data.map((item: incomeSource | expenseSource) => {

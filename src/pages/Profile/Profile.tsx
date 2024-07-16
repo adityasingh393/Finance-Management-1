@@ -6,7 +6,7 @@ import ProfilePicture from "./832.jpg";
 import GridPattern from "../../components/landing/GridPattern";
 import { cn } from "../../lib/utils";
 import CommonButton from "../../components/common/CommonButton";
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 interface User {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Budget, expenseSource, incomeSource, newUser, transHistory } from "./interface/types";
 import { saveToIndexedDB } from "./SaveUserInDB";
 
