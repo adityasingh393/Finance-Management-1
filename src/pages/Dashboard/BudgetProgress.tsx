@@ -57,7 +57,6 @@ const BudgetProgress: React.FC<BudgetProgressProps> = ({ budgetDetails, expenseD
 
   return (
     <div className="budget-progress">
-      <h2>Budget Progress</h2>
       <canvas ref={chartRef}></canvas>
     </div>
   );
