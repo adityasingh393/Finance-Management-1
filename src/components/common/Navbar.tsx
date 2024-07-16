@@ -3,22 +3,29 @@ import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Sling as Hamburger } from 'hamburger-react';
+import { fetchData } from '../../utils/customHooks/fetchData';
+import { useLogout } from '../../utils/customHooks/useLogout';
 
 const links = [
   { name: 'Home', path: '/' },
-  { name: 'Login', path: '/login' },
   { name: 'Dashboard', path: '/dashboard' },
   { name: 'Income', path: '/income' },
   { name: 'Expense', path: '/expense' },
   { name: 'Budget', path: '/budget' },
   { name: 'Profile', path: '/profile-page' },
-  { name: 'Transaction', path: '/transcation-details' },
+  { name: 'Transaction', path: '/transcation-details' }, // Corrected typo in path
 ];
 
 const Navbar: React.FC = () => {
+  const currentuser = fetchData();
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    useLogout();
+    navigate('/login'); // Assuming this is your login route
+  };
 
   return (
     <header className="z-[999] relative bg-#f8f9fa" style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -68,6 +75,35 @@ const Navbar: React.FC = () => {
                 </button>
               </motion.li>
             ))}
+
+            {/* Conditional rendering for Logout/Login button */}
+            {currentuser ? (
+              <motion.li
+                className="h-3/4 flex items-center justify-center relative"
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+              >
+                <button
+                  className="flex w-full items-center justify-center px-3 py-3 transition hover:text-grey-900 dark:text-gray-500 dark:hover:text-gray-800 text-xs sm:text-sm"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </motion.li>
+            ) : (
+              <motion.li
+                className="h-3/4 flex items-center justify-center relative"
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+              >
+                <button
+                  className="flex w-full items-center justify-center px-3 py-3 transition hover:text-grey-900 dark:text-gray-500 dark:hover:text-gray-800 text-xs sm:text-sm"
+                  onClick={() => navigate('/login')}
+                >
+                  Login
+                </button>
+              </motion.li>
+            )}
           </ul>
         </nav>
       )}

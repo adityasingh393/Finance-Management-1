@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { fetchData } from '../../utils/customHooks/fetchData'; // Assuming fetchData returns a typed object
 import { transHistory } from '../../utils/interface/types';
-import { Income, Expense, all } from '../../utils/dummyData';
+import { Incomedata, Expensedata, allCategories } from '../../utils/dummyData';
 
 interface Option {
   value: string;
@@ -24,7 +24,9 @@ export const TransHistoryDetails: React.FC = () => {
   const user = fetchData(); // Assuming fetchData returns a typed object
   const [transactionsData, setTransactionData] = useState<transHistory[]>(user?.transDetails || []);
 
-  const [data, setData] = useState<string[]>(all);
+  const [data, setData] = useState<string[]>(allCategories
+    
+  );
   const [defaultvalue, setDefaultvalue] = useState<string>('Select option');
   const options: Option[] = [
     { value: 'income', label: 'Income' },
@@ -46,11 +48,11 @@ export const TransHistoryDetails: React.FC = () => {
   const handleTypeChange = (event: SelectChangeEvent<string>) => {
     setFilteredType(event.target.value);
     if (event.target.value === 'income') {
-      setDefaultvalue(Income[0]);
-      setData(Income);
+      setDefaultvalue(Incomedata[0]);
+      setData(Incomedata);
     } else if (event.target.value === 'expense') {
-      setDefaultvalue(Expense[0]);
-      setData(Expense);
+      setDefaultvalue(Expensedata[0]);
+      setData(Expensedata);
     }
   };
 

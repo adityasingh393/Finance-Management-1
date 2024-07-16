@@ -4,33 +4,33 @@ import { incomeSource, newUser, transHistory } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
 import { fetchData } from '../utils/customHooks/fetchData';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
-import { addToIncomeArray, addIncomeToTansactionArray, deleteIncome, setInitialState } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux'
+import { addToIncomeArray, addIncomeToTansactionArray, deleteIncome } from '../redux/slices/userSlice';
 import dayjs from 'dayjs'
-// import { useAuth } from '../utils/customHooks/useAuth';
-import { RootState } from '../redux/store';
 import GridPattern from '../components/landing/GridPattern';
 import { cn } from '../lib/utils';
 import CommonButton from '../components/common/CommonButton';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteSweep } from "react-icons/md";
+import { Incomedata } from '../utils/dummyData'
 
 
 
 const Income = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
-    // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    // const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
+
     const users = fetchData();
     const { control, handleSubmit, reset } = useForm<incomeSource>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
-
-    
     useEffect(() => {
-         setUserData(users);
-    },[])
+        if (!users) {
+            navigate(`/login`);
+        }
+    }, [users, navigate]);
+    useEffect(() => {
+        setUserData(users);
+    }, [])
 
     const onSubmit: SubmitHandler<incomeSource> = (data) => {
         // Find existing income object based on incomeType
@@ -45,14 +45,12 @@ const Income = () => {
         }
         let num2 = Number(data.amount);
 
-        //  console.log(`submit`,typeof Number(existingIncome?.amount));
+
         // Calculate updated amount
         let updateamount = num1 + num2;
         console.log(`submit ${updateamount}`)
 
-        // let updatedAmount = existingIncome ? existingIncome.amount + parseFloat(data.amount) : parseFloat(data.amount);
-        // updatedAmount = updatedAmount.toLocaleString();
-        // Create a new income object with updated amount
+
         const newIncome: incomeSource = {
             incomeType: data.incomeType,
             amount: updateamount.toString(),
@@ -103,17 +101,17 @@ const Income = () => {
 
     return (
         <Container maxWidth="sm">
-                  <GridPattern
-                        width={40}
-                        height={40}
-                        x={0}
-                        y={0}
-                        className={cn(
-                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
-                        "absolute inset-0 z-0",
-                        "animate-pulse"
-                        )}
-                    />
+            <GridPattern
+                width={40}
+                height={40}
+                x={0}
+                y={0}
+                className={cn(
+                    "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                    "absolute inset-0 z-0",
+                    "animate-pulse"
+                )}
+            />
             <AppBar
                 position="static"
                 sx={{
@@ -138,7 +136,7 @@ const Income = () => {
             </AppBar>
             <form onSubmit={handleSubmit(onSubmit)}>
 
-            <FormControl fullWidth margin="normal">
+                <FormControl fullWidth margin="normal">
                     <Controller
                         name="incomeType"
                         control={control}
@@ -173,15 +171,12 @@ const Income = () => {
                                 <MenuItem value="" disabled sx={{ fontFamily: 'Inter, sans-serif' }}>
                                     Select the Category
                                 </MenuItem>
-                                <MenuItem value="Salary" sx={{ fontFamily: 'Inter, sans-serif' }}>
-                                    Salary
-                                </MenuItem>
-                                <MenuItem value="Business" sx={{ fontFamily: 'Inter, sans-serif' }}>
-                                    Business
-                                </MenuItem>
-                                <MenuItem value="Investments" sx={{ fontFamily: 'Inter, sans-serif' }}>
-                                    Investments
-                                </MenuItem>
+                                {/* Map through menuItems array to generate menu items */}
+                                {Incomedata.map((item, index) => (
+                                    <MenuItem key={index} value={item} sx={{ fontFamily: 'Inter, sans-serif' }}>
+                                        {item}
+                                    </MenuItem>
+                                ))}
                                 {/* Add more income types as needed */}
                             </Select>
                         )}
