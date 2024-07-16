@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 import Button from "@mui/material/Button";
-// import Loader from './Loader';
-
 interface CustomButtonProps {
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
@@ -48,6 +46,7 @@ const CommonButton: React.FC<CustomButtonProps> = ({
           {children}
           {/* {loading && <Loader />} */}
         </Button>
+        
     );
 };
 

@@ -6,7 +6,7 @@ export const fetchData = (): newUser | null => {
     if (userString) {
       try {
         const userData: newUser = JSON.parse(userString);
-        console.log(userData,"userdata")
+        // console.log(userData,"userdata")
         return userData;
         
       } catch (error) {

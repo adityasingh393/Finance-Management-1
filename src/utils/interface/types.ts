@@ -35,3 +35,12 @@ export interface LoginFormInput {
     email: string;
     password: string;
 }
+
+export interface UserState {
+    user:userDetails;
+    incomeDetails?:incomeSource[];
+    expenseDetails?:expenseSource[];
+    transDetails?:transHistory[];
+    budgetDetails?:Budget[];
+    currentUser?: newUser;
+}

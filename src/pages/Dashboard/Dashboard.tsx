@@ -5,31 +5,48 @@ import LatestTransactions from "./LatestTransactions";
 import IncomePieChart from "./IncomePieChart";
 import ExpensePieChart from "./ExpensePieChart";
 import BudgetProgress from "./BudgetProgress";
+import TransactionChart from "./TransactionChart";
 import { newUser, transHistory, incomeSource, expenseSource } from "../../utils/interface/types";
 import "../../styles/Dashboard.css";
 import Loader from "../../components/common/Loader";
 import { useNavigate } from "react-router-dom";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import { Grid, Box } from "@mui/material";
+import GridPattern from "../../components/landing/GridPattern";
+import { cn } from "../../lib/utils";
+import Typography from "@mui/material/Typography";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState<newUser | null>(null);
   const [latestTransactions, setLatestTransactions] = useState<transHistory[]>([]);
-
-  const navigate=useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentUserName, setCurrentUserName] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+
+    if (!currentUser) {
+      alert("You are not logged in. Redirecting to login page...");
+      navigate("/login");
+      return;
+    }
+    setCurrentUserName(currentUser.user.name);
+    console.log(currentUser.user.name);
     const fetchUserData = async () => {
-      const data =  fetchData();
-      console.log(data,`log`)
+      const data = await fetchData();
       if (data) {
         setUserData(data);
         setLatestTransactions(data.transDetails?.slice(-5).reverse() || []);
       }
+      setIsLoading(false);
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const generatePieChartData = (data: (incomeSource | expenseSource)[], key: "incomeType" | "expenseType") => {
     const labels = data.map((item: incomeSource | expenseSource) => {
@@ -72,43 +89,181 @@ const Dashboard: React.FC = () => {
     };
   };
 
-  if (!userData) {
-    setTimeout(() => {
-      navigate('/login');
-    }, 3000);
-    return <Loader/>;
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const { incomeDetails = [], expenseDetails = [], budgetDetails = [], transDetails = [] } = userData || {};
+
+  const isEmpty = incomeDetails.length === 0 && expenseDetails.length === 0 && budgetDetails.length === 0 && transDetails.length === 0;
+
+  if (isEmpty) {
+    return <Typography variant="h5" sx={{
+      flexGrow: 1,
+      textAlign: 'center',
+      fontFamily: "Playwrite DK Uloopet",
+      fontWeight: 'bold',
+      mt: 26,
+      color:'#495057'
+  }}>
+      Hi, {currentUserName} Kindly enter your transactions to <br /> view your dashboard.
+
+  </Typography>;
   }
 
   return (
     <div className="dashboard-container">
-      <h1>Dashboard</h1>
-      <div className="dashboard-content">
-        <div className="left-section">
-          <div className="piechart">
-            <IncomePieChart
-              incomeDetails={userData.incomeDetails || []}
-              generatePieChartData={generatePieChartData}
-            />
-            <ExpensePieChart
-              expenseDetails={userData.expenseDetails || []}
-              generatePieChartData={generatePieChartData}
-            />
-          </div>
-          <div className="latest-transactions">
-            <h2>Latest Transactions</h2>
-            <LatestTransactions transactions={latestTransactions} />
-          </div>
-        </div>
-        <div className="right-section">
-          <div className="budget-progress">
-            <h2>Budget Progress</h2>
-            <BudgetProgress
-              budgetDetails={userData.budgetDetails || []}
-              expenseDetails={userData.expenseDetails || []}
-            />
-          </div>
-        </div>
-      </div>
+      {/* Grid animation */}
+      <GridPattern
+        width={40}
+        height={40}
+        x={0}
+        y={0}
+        className={cn(
+          "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+          "absolute inset-0 z-0",
+          "animate-pulse"
+        )}
+      />
+
+      {/* AppBar */}
+      <AppBar
+        position="static"
+        sx={{
+          background: 'white',
+          color: '#03071e',
+          borderRadius: '10px',
+          mb: 4,
+          boxShadow: '0', // Adds margin at the bottom to separate the AppBar from the form
+        }}
+      >
+        <Toolbar>
+          <Typography variant="h5" sx={{
+            flexGrow: 1,
+            textAlign: 'center',
+            fontFamily: "Playwrite DK Uloopet",
+            fontWeight: 'bold',
+            mt: 12,
+          }}>
+            DashBoard 🏦
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {/* Charts and Graphs */}
+
+      <Box sx={{ padding: 2 }}>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={14} sm={6} md={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#f5f5f5',
+                borderRadius: '10px',
+                padding: 2,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <IncomePieChart
+                incomeDetails={incomeDetails}
+                generatePieChartData={generatePieChartData}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={14} sm={6} md={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#f5f5f5',
+                borderRadius: '10px',
+                padding: 2,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <ExpensePieChart
+                expenseDetails={expenseDetails}
+                generatePieChartData={generatePieChartData}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={14} md={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#f5f5f5',
+                borderRadius: '10px',
+                padding: 2,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                width: '100%',
+                paddingTop: 3,
+                paddingBottom: 3,
+              }}
+            >
+              <Typography variant="h6" component="h2" sx={{ fontFamily: 'Inter, sans-serif' }}>
+                Latest Transactions
+              </Typography>
+              <LatestTransactions transactions={latestTransactions} />
+            </Box>
+          </Grid>
+          <Grid item xs={14} md={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#f5f5f5',
+                borderRadius: '10px',
+                padding: 2,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <Typography variant="h6" component="h2" sx={{ fontFamily: 'Inter, sans-serif' }}>
+                Transaction History
+              </Typography>
+              <TransactionChart transactions={transDetails} />
+            </Box>
+          </Grid>
+          <Grid item xs={14} md={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: '#f5f5f5',
+                borderRadius: '10px',
+                padding: 2,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              <Typography variant="h6" component="h2" sx={{ fontFamily: 'Inter, sans-serif' }}>
+                Budget Progress
+              </Typography>
+              <BudgetProgress
+                budgetDetails={budgetDetails}
+                expenseDetails={expenseDetails}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 };
