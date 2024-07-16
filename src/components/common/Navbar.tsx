@@ -21,9 +21,10 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const logout = useLogout();
 
   const handleLogout = () => {
-    useLogout();
+    logout();
     navigate('/login'); // Assuming this is your login route
   };
 

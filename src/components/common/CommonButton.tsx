@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
 import Button from "@mui/material/Button";
-
-
 interface CustomButtonProps {
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
