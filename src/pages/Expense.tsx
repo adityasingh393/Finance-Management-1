@@ -32,7 +32,7 @@ const Expense = () => {
     }, [users, navigate]);
     useEffect(() => {
         setUserData(users);
-    }, []);
+    }, [users]);
 
     const onSubmit: SubmitHandler<expenseSource> = (data) => {
         // console.log(data);
@@ -44,8 +44,8 @@ const Expense = () => {
         else {
             num1 = Number(existingExpense.amount)
         }
-        let num2 = Number(data.amount);
-        let updateamount = num1 + num2;
+        const num2 = Number(data.amount);
+        const updateamount = num1 + num2;
         const newExpense: expenseSource = {
             expenseType: data.expenseType,
             amount: updateamount.toString(),
@@ -274,4 +274,4 @@ const Expense = () => {
     )
 }
 
-export default Expense
+export default Expense;
