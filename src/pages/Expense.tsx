@@ -11,6 +11,9 @@ import { addExpenseToTansactionArray, addToExpenseArray, deleteExpense } from '.
 import dayjs from 'dayjs';
 import { cn } from '../lib/utils';
 import GridPattern from '../components/landing/GridPattern';
+import { FaRegEdit } from 'react-icons/fa';
+import { MdDeleteSweep } from 'react-icons/md';
+import CommonButton from '../components/common/CommonButton';
 // import { useAuth } from '../utils/customHooks/useAuth';
 // import { RootState } from '../redux/store';
 
@@ -108,7 +111,7 @@ const Expense = () => {
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
                         fontWeight: 'bold',
-                        mt: 19,
+                        mt: 15,
                     }}>
                         Expense Form 💰
                     </Typography>
@@ -116,73 +119,150 @@ const Expense = () => {
             </AppBar>
 
             {/* form  */}
-            
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl fullWidth margin="normal">
-                    {/* <InputLabel id="expense-type-label">Expense Type</InputLabel> */}
-                    <Typography fontSize={15} color={'GrayText'}>Expense Type</Typography>
-                    <Controller
-                        name="expenseType"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <Select
-                                {...field}
-                                labelId="expense-type-label"
-                                id="expense-type"
-                                fullWidth
-                                required
-                            >
-                                <MenuItem value="Clothes">Clothes</MenuItem>
-                                <MenuItem value="Entertainment">Entertainment</MenuItem>
-                                <MenuItem value="Food">Food</MenuItem>
-                                {/* Add more income types as needed */}
-                            </Select>
-                        )}
-                    />
-                </FormControl>
 
-                <FormControl fullWidth margin="normal">
-                    <Controller
-                        name="amount"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Amount"
-                                id="amount"
-                                type="number"
-                                fullWidth
-                                required
-                                InputProps={{
-                                    inputProps: {
-                                        min: 0,
+             <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl fullWidth margin="normal">
+                <Typography fontSize={15} color="GrayText">Expense Type</Typography>
+                <Controller
+                    name="expenseType"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                        <Select
+                            {...field}
+                            labelId="expense-type-label"
+                            id="expense-type"
+                            fullWidth
+                            required
+                            displayEmpty
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: 2,
+                                    fontFamily: 'Inter, sans-serif',
+                                    '&.Mui-focused': {
+                                        borderColor: '#edafb8',
                                     },
-                                }}
-                            />
-                        )}
-                    />
-                </FormControl>
+                                    '& fieldset': {
+                                        borderColor: '#edafb8',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#edafb8',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#edafb8',
+                                    },
+                                },
+                            }}
+                        >
+                            <MenuItem value="" disabled sx={{ fontFamily: 'Inter, sans-serif' }}>
+                                Select the Category
+                            </MenuItem>
+                            <MenuItem value="Clothes" sx={{ fontFamily: 'Inter, sans-serif' }}>Clothes</MenuItem>
+                            <MenuItem value="Entertainment" sx={{ fontFamily: 'Inter, sans-serif' }}>Entertainment</MenuItem>
+                            <MenuItem value="Food" sx={{ fontFamily: 'Inter, sans-serif' }}>Food</MenuItem>
+                            {/* Add more expense types as needed */}
+                        </Select>
+                    )}
+                />
+            </FormControl>
 
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
-            </form>
-            {/* here comes the list of Expenses... */}
-            {
-                _userData?.expenseDetails?.map((item, indx) => (
-                    <ListItem key={indx}>
-                        <ListItemText primary={item.expenseType} secondary={`Amount: ${item.amount}`} />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)}>
-                                <EditIcon />
-                            </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+            <FormControl fullWidth margin="normal">
+                <Controller
+                    name="amount"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                        <TextField
+                            {...field}
+                            label="Amount"
+                            id="amount"
+                            type="number"
+                            fullWidth
+                            required
+                            InputProps={{
+                                inputProps: {
+                                    min: 0,
+                                },
+                            }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: 2,
+                                    fontFamily: 'Inter, sans-serif',
+                                    '&.Mui-focused': {
+                                        borderColor: '#1b263b',
+                                    },
+                                    '& fieldset': {
+                                        borderColor: '#1b263b',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#1b263b',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#1b263b',
+                                    },
+                                },
+                            }}
+                        />
+                    )}
+                />
+            </FormControl>
+
+            <CommonButton type="submit" variant="contained">
+                Submit
+            </CommonButton>
+        </form>
+
+        {/* Here comes the list of Expenses... */}
+        {_userData?.expenseDetails?.map((item, indx) => (
+            <ListItem
+                key={indx}
+                sx={{
+                    mb: 2,
+                    borderRadius: '10px',
+                    bgcolor: '#f5f5f5',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    padding: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    listStyleType: 'none',
+                }}
+            >
+                <ListItemText
+                    primary={item.expenseType}
+                    secondary={`Amount: ₹${item.amount}`}
+                    primaryTypographyProps={{
+                        sx: {
+                            fontWeight: 'bold',
+                            fontSize: '1.2rem',
+                            fontFamily: 'Inter, sans-serif',
+                            listStyleType: 'none',
+                        },
+                    }}
+                    secondaryTypographyProps={{
+                        sx: {
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '1rem',
+                            listStyleType: 'none',
+                        },
+                    }}
+                />
+                <ListItemSecondaryAction
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        listStyleType: 'none',
+                    }}
+                >
+                    <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)} sx={{ color: '#3f51b5', mr: 1 }}>
+                        <FaRegEdit />
+                    </IconButton>
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)} sx={{ color: '#f50057' }}>
+                        <MdDeleteSweep />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
                 ))
             }
         </Container>

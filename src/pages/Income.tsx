@@ -130,7 +130,7 @@ const Income = () => {
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
                         fontWeight: 'bold',
-                        mt: 19,
+                        mt: 15,
                     }}>
                         Income Form 💸
                     </Typography>
