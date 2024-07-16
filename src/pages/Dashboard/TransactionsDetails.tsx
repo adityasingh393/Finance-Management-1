@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   FormControl,
@@ -29,6 +30,14 @@ export const TransHistoryDetails: React.FC = () => {
     { value: 'income', label: 'Income' },
     { value: 'expense', label: 'Expense' },
   ];
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate(`/login`);
+    }
+  }, [user, navigate]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedOption(event.target.value);

@@ -1,4 +1,4 @@
-import { Button, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { AppBar, Button, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -6,45 +6,53 @@ import { Budget, newUser } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils/customHooks/fetchData';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToBudgetArray, deleteBudget, setInitialState } from '../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+import { addToBudgetArray, deleteBudget } from '../redux/slices/userSlice';
+import GridPattern from '../components/landing/GridPattern';
+import { cn } from '../lib/utils';
+import CommonButton from '../components/common/CommonButton';
+import { FaRegEdit } from 'react-icons/fa';
+import { MdDeleteSweep } from 'react-icons/md';
 // import { useAuth } from '../utils/customHooks/useAuth';
-import { RootState } from '../redux/store';
+// import { RootState } from '../redux/store';
 
 const BudgetPage = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
-    // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
+   const users=fetchData();
     const { control, handleSubmit, reset } = useForm<Budget>();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    
-    useEffect(() => {
-        dispatch(setInitialState(currentUser!))
-        const fetchUserData = async () => {
-            const data = fetchData();
-            // console.log(data, `log`)
-            if (data) {
-                setUserData(data);
-                // console.log(data)
-                // console.log(userData)
-            }
-            else{
-                navigate('/login')
-            }
-        };
-
-        fetchUserData();
-    }, [currentUser]);
+    useEffect(()=>{
+         setUserData(users);
+    },[])
 
     const onSubmit:SubmitHandler<Budget> = (data) => {
         // console.log(data);
-        const newObject:Budget = {
-            type: data.type,
-            amount: data.amount
+        const existingBudget=_userData?.budgetDetails?.find((item)=>item.type=data.type);
+        let num1;
+        if(!existingBudget){
+            num1=0;
         }
-        dispatch(addToBudgetArray(newObject))
+        else{
+            num1=Number(existingBudget.amount);
+        }
+        let  num2=Number(data.amount)
+
+        let updateamount=num1+num2;
+        const newBudget:Budget={
+            type:data.type,
+            amount:updateamount.toString(),
+        }
+        
+        dispatch(addToBudgetArray(newBudget))
+        const updatedUserData = fetchData();
+        if (updatedUserData) {
+            setUserData(updatedUserData);
+        } else {
+            navigate(`/login`);
+        }
+
         reset()
     };
 
@@ -56,14 +64,56 @@ const BudgetPage = () => {
     const handleDelete = (id: number) => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
-        dispatch(deleteBudget(id))
+        dispatch(deleteBudget(id));
+        const storeuser=fetchData();
+        if(storeuser){
+            setUserData(storeuser);
+        }else{
+            navigate(`/login`);
+        }
     };
 
     return (
+
         <Container maxWidth="sm">
-            <Typography variant="h4" align="center" gutterBottom>
-                Budget Form
-            </Typography>
+                  <GridPattern
+                        width={40}
+                        height={40}
+                        x={0}
+                        y={0}
+                        className={cn(
+                        "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]",
+                        "absolute inset-0 z-0",
+                        "animate-pulse"
+                        )}
+                    />
+            <AppBar
+                position="static"
+                sx={{
+                    background: 'white',
+                    color: '#03071e',
+                    borderRadius: '10px',
+                    mb: 4,
+                    boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
+                }}
+            >
+                <Toolbar>
+                    <Typography variant="h5" sx={{
+                        flexGrow: 1,
+                        textAlign: 'center',
+                        fontFamily: "Playwrite DK Uloopet",
+                        fontWeight: 'bold',
+                        mt: 15,
+                    }}>
+                        Budget Form 💱
+
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+
+            {/* form 
+             */}
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl fullWidth margin="normal">
                     {/* <InputLabel id="budget-type-label">Budget Type</InputLabel> */}
@@ -79,7 +129,7 @@ const BudgetPage = () => {
                                 id="budget-type"
                                 fullWidth
                                 required
-                                placeholder='Budget Type'
+                                placeholder="Budget Type"
                             >
                                 <MenuItem value="Clothes">Clothes</MenuItem>
                                 <MenuItem value="Entertainment">Entertainment</MenuItem>
@@ -113,21 +163,57 @@ const BudgetPage = () => {
                     />
                 </FormControl>
 
-                <Button type="submit" variant="contained" color="primary">
+                <CommonButton type="submit" variant="contained" >
                     Submit
-                </Button>
+                </CommonButton>
             </form>
             {/* here comes the list of Budgets... */}
             {
-                currentUser?.budgetDetails?.map((item, indx) => (
-                    <ListItem key={indx}>
-                        <ListItemText primary={item.type} secondary={`Amount: ${item.amount}`} />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)}>
-                                <EditIcon />
+                _userData?.budgetDetails?.map((item, indx) => (
+                    <ListItem
+                        key={indx}
+                        sx={{
+                            mb: 2,
+                            borderRadius: '10px',
+                            bgcolor: '#f5f5f5',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                            padding: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            listStyleType: 'none',
+                        }}
+                    >
+                        <ListItemText primary={item.type} secondary={`Amount: ${item.amount}`}
+                              primaryTypographyProps={{
+                                sx: {
+                                    fontWeight: 'bold',
+                                    fontSize: '1.2rem',
+                                    fontFamily: 'Inter, sans-serif',
+                                    listStyleType: 'none',
+                                },
+                            }}
+                            secondaryTypographyProps={{
+                                sx: {
+                                    fontFamily: 'Inter, sans-serif',
+                                    fontSize: '1rem',
+                                    listStyleType: 'none',
+                                },
+                            }}
+                             />
+                        <ListItemSecondaryAction
+                           sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            listStyleType: 'none',
+                        }}
+                        >
+                            <IconButton edge="end" aria-label="edit" onClick={() => handleEdit(indx)} sx={{ color: '#3f51b5', mr: 1 }}>
+                               <FaRegEdit />
                             </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)}>
-                                <DeleteIcon />
+                            <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(indx)} sx={{ color: '#f50057' }}>
+                              <MdDeleteSweep />
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
