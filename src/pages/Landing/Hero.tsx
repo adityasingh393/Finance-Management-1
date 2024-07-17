@@ -235,7 +235,7 @@ const Hero: React.FC = () => {
                   className="absolute inset-0 z-10" 
                 />
                <img 
-                  src="/src/pages/Landing/hero.png" 
+                  src="https://i.postimg.cc/jdJDmCMV/hero.png" 
                   alt="Hero" 
                   className="w-full h-auto object-cover shadow-lg" 
                   style={{
