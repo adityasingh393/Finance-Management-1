@@ -1,4 +1,4 @@
-import { AppBar, Container, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Budget, newUser } from '../utils/interface/types';
@@ -20,6 +20,9 @@ const BudgetPage = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
     const navigate = useNavigate()
     const { control, handleSubmit, reset } = useForm<Budget>();
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [editAmount, setEditAmount] = useState<number | null>(null);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const dispatch = useDispatch()
     const users = fetchData();
     useEffect(() => {
@@ -61,9 +64,34 @@ const BudgetPage = () => {
         reset()
     };
 
-    const handleEdit = (id: number) => {
+    const handleEdit = (index: number) => {
         // Handle edit functionality
-        console.log(`Edit item with id ${id}`);
+        setEditIndex(index);
+        setEditAmount(Number(_userData?.incomeDetails![index]?.amount)); // Set initial value for edit dialog
+        setEditDialogOpen(true);
+    };
+    const handleEditSubmit = () => {
+        if (editIndex !== null && editAmount !== null) {
+            // Perform update action here
+            console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
+            const newObject: Budget = {
+                type: _userData?.budgetDetails![editIndex]?.type!,
+                amount: editAmount.toString()
+            }
+            console.log(newObject)
+            dispatch(addToBudgetArray(newObject));
+            const updatedUserData = fetchData();
+            if (updatedUserData) {
+                setUserData(updatedUserData);
+            } else {
+                navigate(`/login`);
+            }
+            //   onSubmit(newObject)
+            setEditDialogOpen(false);
+
+            //   setForceRerender(forceRerender+1);
+            // location.reload()
+        }
     };
 
     const handleDelete = (id: number) => {
@@ -229,6 +257,34 @@ const BudgetPage = () => {
                     </ListItem>
                 ))
             }
+
+            <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+                <DialogTitle>Edit Amount</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="New Amount"
+                        type="number"
+                        fullWidth
+                        value={editAmount || ''}
+                        onChange={(e) => setEditAmount(parseFloat(e.target.value))}
+                        InputProps={{
+                            inputProps: {
+                                min: 0
+                            }
+                        }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setEditDialogOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleEditSubmit} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import { Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, ListItem, ListItemSecondaryAction, ListItemText, AppBar, Toolbar } from '@mui/material';
+import { Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, ListItem, ListItemSecondaryAction, ListItemText, AppBar, Toolbar, DialogTitle, Dialog, DialogContent, Button, DialogActions } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -18,8 +18,9 @@ import { Expensedata } from '../utils/dummyData';
 
 const Expense = () => {
     const [_userData, setUserData] = useState<newUser | null>(null);
-    // const currentUser: newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    // const currentUser = useSelector((state:RootState)=>state.userReducer.currentUser)
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [editAmount, setEditAmount] = useState<number | null>(null);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
     const users = fetchData();
     const { control, handleSubmit, reset } = useForm<expenseSource>();
     const navigate = useNavigate()
@@ -54,7 +55,7 @@ const Expense = () => {
         const newObject: transHistory = {
             date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
             type: data.expenseType,
-            amount: updateamount.toString(),
+            amount: data.amount,
         }
         // console.log(newObject)
         dispatch(addExpenseToTansactionArray(newObject));
@@ -68,12 +69,37 @@ const Expense = () => {
         reset()
     };
 
-    const handleEdit = (id: number) => {
+    const handleEdit = (index: number) => {
         // Handle edit functionality
-        console.log(`Edit item with id ${id}`);
+        setEditIndex(index);
+        setEditAmount(Number(_userData?.incomeDetails![index]?.amount)); // Set initial value for edit dialog
+        setEditDialogOpen(true);
 
     };
-
+    const handleEditSubmit = () => {
+        if (editIndex !== null && editAmount !== null) {
+          // Perform update action here
+          console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
+          const newObject:expenseSource = {
+              expenseType: _userData?.expenseDetails![editIndex]?.expenseType!,
+              amount: editAmount.toString()
+          }
+          console.log(newObject)
+          dispatch(addToExpenseArray(newObject));
+        const updatedUserData = fetchData();
+        if (updatedUserData) {
+            setUserData(updatedUserData);
+        } else {
+            navigate(`/login`);
+        }
+        //   onSubmit(newObject)
+          setEditDialogOpen(false);
+          
+        //   setForceRerender(forceRerender+1);
+          // location.reload()
+        }
+      };
+    
     const handleDelete = (id: number) => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
@@ -270,6 +296,34 @@ const Expense = () => {
                 </ListItem>
             ))
             }
+
+<Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+                <DialogTitle>Edit Amount</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="New Amount"
+                        type="number"
+                        fullWidth
+                        value={editAmount || ''}
+                        onChange={(e) => setEditAmount(parseFloat(e.target.value))}
+                        InputProps={{
+                            inputProps: {
+                                min: 0
+                            }
+                        }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setEditDialogOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleEditSubmit} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
         </Container>
     )
 }
