@@ -10,6 +10,8 @@ import Expense from '../pages/Expense';
 import BudgetPage from '../pages/Budget';
 import Navbar from '../components/common/Navbar';
 
+
+
 const AppRouter = () => (
   <Router>
     <Navbar />
