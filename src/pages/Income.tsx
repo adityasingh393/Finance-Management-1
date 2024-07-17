@@ -69,7 +69,7 @@ const Income = () => {
         const newTransaction: transHistory = {
             date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
             type: data.incomeType,
-            amount: updateamount.toString(), // Use the submitted amount for transaction history
+            amount: data.amount, // Use the submitted amount for transaction history
         };
 
         // Dispatch action to add transaction history
@@ -98,19 +98,10 @@ const Income = () => {
           console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
           const newObject:incomeSource = {
               incomeType: _userData?.incomeDetails![editIndex]?.incomeType!,
-              amount: _userData?.incomeDetails![editIndex]?.amount!
+              amount: editAmount.toString()
           }
           console.log(newObject)
           dispatch(addToIncomeArray(newObject));
-
-          const newTransaction: transHistory = {
-            date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
-            type: _userData?.incomeDetails![editIndex]?.incomeType!,
-            amount: _userData?.incomeDetails![editIndex]?.amount!// Use the submitted amount for transaction history
-        };
-
-        // Dispatch action to add transaction history
-        dispatch(addIncomeToTansactionArray(newTransaction));
         const updatedUserData = fetchData();
         if (updatedUserData) {
             setUserData(updatedUserData);
