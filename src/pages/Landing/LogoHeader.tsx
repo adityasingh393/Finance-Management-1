@@ -20,7 +20,7 @@ const LogoHeader: React.FC = () => {
         zIndex: 1000, // Ensure it stays on top
       }}
     >  
-      <img src="src/pages/Landing/logo.png" alt="Logo" style={{ height: '40px', marginRight: '10px', marginLeft: '25px', marginTop: '10px' }} /> {/* Adjust height as needed */}
+      <img src="./logo.png" alt="Logo" style={{ height: '40px', marginRight: '10px', marginLeft: '25px', marginTop: '10px' }} /> {/* Adjust height as needed */}
       <Typography 
         variant="h6" 
         sx={{
