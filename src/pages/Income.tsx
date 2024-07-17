@@ -30,7 +30,7 @@ const Income = () => {
     }, [users, navigate]);
     useEffect(() => {
         setUserData(users);
-    }, [])
+    }, [users])
 
     const onSubmit: SubmitHandler<incomeSource> = (data) => {
         // Find existing income object based on incomeType
@@ -43,11 +43,11 @@ const Income = () => {
 
             num1 = Number(existingIncome?.amount);
         }
-        let num2 = Number(data.amount);
+        const num2 = Number(data.amount);
 
 
         // Calculate updated amount
-        let updateamount = num1 + num2;
+        const updateamount = num1 + num2;
         console.log(`submit ${updateamount}`)
 
 

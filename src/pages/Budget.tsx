@@ -30,8 +30,8 @@ const BudgetPage = () => {
 
     useEffect(() => {
         setUserData(users);
-    }, [])
-
+    }, [users] )   //changed just now at 7 pm nedd to check it back did to remove soft error
+   
     const onSubmit: SubmitHandler<Budget> = (data) => {
         // console.log(data);
         const existingBudget = _userData?.budgetDetails?.find((item) => item.type = data.type);
@@ -42,9 +42,9 @@ const BudgetPage = () => {
         else {
             num1 = Number(existingBudget.amount);
         }
-        let num2 = Number(data.amount)
+        const num2 = Number(data.amount)
 
-        let updateamount = num1 + num2;
+        const updateamount = num1 + num2;
         const newBudget: Budget = {
             type: data.type,
             amount: updateamount.toString(),
