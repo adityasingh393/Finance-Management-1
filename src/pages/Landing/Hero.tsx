@@ -97,7 +97,7 @@ const Hero: React.FC = () => {
           mb={5}  // Added margin-bottom for space
         >
           <CommonButton 
-            onClick={() => {navigate('/login')}}
+            onClick={() => {navigate('/dashboard')}}
             variant="contained" 
             // sx={{marginbottom: '5px'}}  // Added margin-bottom for space
           >

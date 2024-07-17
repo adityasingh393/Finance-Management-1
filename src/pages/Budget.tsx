@@ -12,7 +12,7 @@ import { cn } from '../lib/utils';
 import CommonButton from '../components/common/CommonButton';
 import { FaRegEdit } from 'react-icons/fa';
 import { MdDeleteSweep } from 'react-icons/md';
-import { Incomedata } from '../utils/dummyData';
+import { Expensedata } from '../utils/dummyData';
 // import { useAuth } from '../utils/customHooks/useAuth';
 // import { RootState } from '../redux/store';
 
@@ -167,7 +167,7 @@ const BudgetPage = () => {
                                 <MenuItem value="" disabled sx={{ fontFamily: 'Inter, sans-serif' }}>
                                     Select the Category
                                 </MenuItem>
-                                {Incomedata.map((item, index) => (
+                                {Expensedata.map((item, index) => (
                                     <MenuItem key={index} value={item} sx={{ fontFamily: 'Inter, sans-serif' }}>
                                         {item}
                                     </MenuItem>
