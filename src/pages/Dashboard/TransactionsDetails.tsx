@@ -93,7 +93,7 @@ export const TransHistoryDetails: React.FC = () => {
                     background: 'white',
                     color: '#03071e',
                     borderRadius: '10px',
-                  
+                  marginTop:"4rem",
                     boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
                 }}
             >
@@ -103,7 +103,7 @@ export const TransHistoryDetails: React.FC = () => {
                         textAlign: 'center',
                         fontFamily: "Playwrite DK Uloopet",
                         fontWeight: 'bold',
-                        mt: 8,
+                        marginTop: 8,
                     }}>
                         Hi, {user?.user.name}
 
