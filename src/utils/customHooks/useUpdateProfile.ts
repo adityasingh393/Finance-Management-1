@@ -12,7 +12,7 @@ const useUpdateProfile = () => {
   const updateName = async (updatedName: string) => {
     try {
       // Fetch current user data
-      const currentUser: newUser | null = await fetchData(); // Adjust based on fetchData implementation
+      const currentUser: newUser | null =  fetchData(); 
 
       if (currentUser) {
         // Retrieve saved users from localforage
