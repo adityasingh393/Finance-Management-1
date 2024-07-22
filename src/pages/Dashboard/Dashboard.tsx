@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
 
     if (!currentUser) {
       alert("You are not logged in. Redirecting to login page...");
-      navigate("/dashboard");
+      navigate("/login");
       return;
     }
     setCurrentUserName(currentUser.user.name);
