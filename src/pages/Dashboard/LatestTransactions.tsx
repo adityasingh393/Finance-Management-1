@@ -9,7 +9,7 @@ interface LatestTransactionsProps {
 const LatestTransactions: React.FC<LatestTransactionsProps> = ({ transactions }) => {
   return (
     <div className="latest-transactions">
-      <h2>Latest Transactions</h2>
+      <h2> Latest 5 transcation made by you</h2>
       <ul>
         {transactions.map((transaction, index) => (
           <li key={index} className="transaction-item">

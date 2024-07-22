@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -13,7 +13,7 @@ const links = [
   { name: 'Expense', path: '/expense' },
   { name: 'Budget', path: '/budget' },
   { name: 'Profile', path: '/profile-page' },
-  { name: 'Transaction', path: '/transcation-details' }, // Corrected typo in path
+  { name: 'Transaction', path: '/transaction-details' }, // Corrected typo in path
 ];
 
 const Navbar: React.FC = () => {
@@ -21,7 +21,14 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const logout = useLogout();
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -36,11 +43,11 @@ const Navbar: React.FC = () => {
         animate={{ y: 0, x: "-50%", opacity: 1 }}
       ></motion.div>
 
-      <div className="absolute right-4 top-4 sm:hidden">
+      <div className="fixed right-4 top-4 sm:hidden">
         <Hamburger toggled={isMenuOpen} toggle={setIsMenuOpen} size={20} /> {/* Adjusted icon size for mobile */}
       </div>
 
-      {(isMenuOpen || window.innerWidth > 640) && (
+      {(isMenuOpen || !isMobile) && (
         <nav className="flex fixed top-[0.15rem] left-1/2 h-12 -translate-x-1/2 py-2 sm:top-[1.7rem] sm:h-[initial] sm:py-0 dark:bg-opacity-65">
           <ul className="flex w-[22rem] flex-wrap items-center justify-center gap-y-1 text-[0.9rem] font-medium text-grey-900 sm:w-[initial] sm:flex-nowrap sm:gap-5">
             {links.map((link) => (
