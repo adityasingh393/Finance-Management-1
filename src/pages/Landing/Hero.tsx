@@ -8,6 +8,7 @@ import Navbar from '../../components/common/Navbar';
 import LogoHeader from './LogoHeader';
 import { BorderBeam } from '../../components/landing/BorderBeam';
 import Footer from './Footer';
+
 const Hero: React.FC = () => {
   const navigate = useNavigate();
   return (
@@ -43,7 +44,7 @@ const Hero: React.FC = () => {
         alignItems="center"
         justifyContent="center"
         height="100%"
-        mt={88}
+        mt={{ xs: 62, sm: 88 }}  // Adjusted margin-top for mobile view
       >
         <Typography 
           variant="h4" 
@@ -93,13 +94,10 @@ const Hero: React.FC = () => {
           Our easy-to-use platform helps you manage expenses effectively <br />
           and efficiently, so you can focus on what matters.
         </Typography>
-        <Box 
-          mb={5}  // Added margin-bottom for space
-        >
+        <Box mb={5}>
           <CommonButton 
-            onClick={() => {navigate('/dashboard')}}
+            onClick={() => {navigate('/login')}}
             variant="contained" 
-            // sx={{marginbottom: '5px'}}  // Added margin-bottom for space
           >
             Get started
           </CommonButton>
@@ -113,142 +111,139 @@ const Hero: React.FC = () => {
           gap={2}
           sx={{ width: '100%', maxWidth: '800px', textAlign: 'left', mx: 'auto' }}
         >
-            <Typography 
-              variant="h2" 
-              sx={{
-                color: '#0d1b2a',
+          <Typography 
+            variant="h2" 
+            sx={{
+              color: '#0d1b2a',
+              fontWeight: 900,
+              mb: 2,
+              fontSize: { xs: '1.8rem', sm: '2.2rem' },
+              textAlign: 'center',
+              mt: 3,
+            }}
+          >
+            Why use{' '}
+            <span
+              style={{
+                background: 'linear-gradient(45deg, #ffafbd, #d5a6f2)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
                 fontWeight: 900,
-                mb: 2,
-                fontSize: { xs: '1.8rem', sm: '2.2rem' },
-                textAlign: 'center',
-                mt: 3,
               }}
             >
-              Why use{' '}
-              <span
-                style={{
-                  background: 'linear-gradient(45deg, #ffafbd, #d5a6f2)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 900,
-                }}
-              >
-                PocketPal?
-              </span>
-            </Typography>
+              PocketPal?
+            </span>
+          </Typography>
 
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                sx={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}
-              >
-                <ol style={{ paddingLeft: '1.5rem', listStylePosition: 'inside' }}>
-                  <li>
-                    <Typography 
-                      variant="h6" 
-                      sx={{ color: '#0d1b2a', fontWeight: 700 }}
-                    >
-                      1. Easy to use:
-                    </Typography>
-                    <Typography variant="body1">
-                      Track expenses on-the-go with categorization and logging.
-                    </Typography>
-                  </li>
-                  <li>
-                    <Typography 
-                      variant="h6" 
-                      sx={{ color: '#0d1b2a', fontWeight: 700  }}
-                    >
-                      2. Data-driven insights:
-                    </Typography>
-                    <Typography variant="body1">
-                      Expense tracker can provide valuable insights into your spending habits, allowing you to make more informed decisions.
-                    </Typography>
-                  </li>
-                  <li>
-                    <Typography 
-                      variant="h6" 
-                      sx={{ color: '#0d1b2a', fontWeight: 700 }}
-                    >
-                      3. Identify overspending:
-                    </Typography>
-                    <Typography variant="body1">
-                      Take control of your finances by identifying and reducing overspending with an expense tracker.
-                    </Typography>
-                  </li>
-                  <li>
-                    <Typography 
-                      variant="h6" 
-                      sx={{ color: '#0d1b2a', fontWeight: 700 }}
-                    >
-                      4. Real-time visibility:
-                    </Typography>
-                    <Typography variant="body1">
-                      Monitor your expenses in real-time, whether you are at home or on-the-go, with a user-friendly interface.
-                    </Typography>
-                  </li>
-                </ol>
-              </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}
+          >
+            <ol style={{ paddingLeft: '1.5rem', listStylePosition: 'inside' }}>
+              <li>
+                <Typography 
+                  variant="h6" 
+                  sx={{ color: '#0d1b2a', fontWeight: 700 }}
+                >
+                  1. Easy to use:
+                </Typography>
+                <Typography variant="body1">
+                  Track expenses on-the-go with categorization and logging.
+                </Typography>
+              </li>
+              <li>
+                <Typography 
+                  variant="h6" 
+                  sx={{ color: '#0d1b2a', fontWeight: 700 }}
+                >
+                  2. Data-driven insights:
+                </Typography>
+                <Typography variant="body1">
+                  Expense tracker can provide valuable insights into your spending habits, allowing you to make more informed decisions.
+                </Typography>
+              </li>
+              <li>
+                <Typography 
+                  variant="h6" 
+                  sx={{ color: '#0d1b2a', fontWeight: 700 }}
+                >
+                  3. Identify overspending:
+                </Typography>
+                <Typography variant="body1">
+                  Take control of your finances by identifying and reducing overspending with an expense tracker.
+                </Typography>
+              </li>
+              <li>
+                <Typography 
+                  variant="h6" 
+                  sx={{ color: '#0d1b2a', fontWeight: 700 }}
+                >
+                  4. Real-time visibility:
+                </Typography>
+                <Typography variant="body1">
+                  Monitor your expenses in real-time, whether you are at home or on-the-go, with a user-friendly interface.
+                </Typography>
+              </li>
+            </ol>
+          </Box>
 
-              <Typography 
-                variant="h2" 
-                sx={{
-                  color: '#0d1b2a',  // Default text color
-                  fontWeight: 900,
-                  mt: 4,
-                  fontSize: { xs: '1.8rem', sm: '2.2rem' },
-                  textAlign: 'center',
-                  // No need for background properties here
-                }}
-              >
-                Simple yet, <span style={{
-                  background: 'linear-gradient(45deg, #ffafbd, #d5a6f2)',  // Gradient for "Powerful"
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 900,  // Match the font weight of the rest of the text
-                }}>Powerful</span> Features.
-              </Typography>
+          <Typography 
+            variant="h2" 
+            sx={{
+              color: '#0d1b2a',
+              fontWeight: 900,
+              mt: 4,
+              fontSize: { xs: '1.8rem', sm: '2.2rem' },
+              textAlign: 'center',
+            }}
+          >
+            Simple yet, <span style={{
+              background: 'linear-gradient(45deg, #ffafbd, #d5a6f2)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 900,
+            }}>Powerful</span> Features.
+          </Typography>
 
-              
-              {/* BorderBeamDemo Section */}
-              <Box 
-                mt={8}
-                mb={10}
-                position="relative"
-                width="100%"
-                height="auto"
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                sx={{ overflow: 'hidden' , borderRadius: '0.75rem' }}
-              >
-                {/* Border Beam Effect */}
-                <BorderBeam 
-                  size={280} 
-                  duration={12} 
-                  delay={9} 
-                  className="absolute inset-0 z-10" 
-                />
-               <img 
-                  src="https://i.postimg.cc/jdJDmCMV/hero.png" 
-                  alt="Hero" 
-                  className="w-full h-auto object-cover shadow-lg" 
-                  style={{
-                    boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
-                    borderRadius: '0.75rem',  // Rounded corners
-                    filter: 'blur(0px)',  // No blur effect (adjust if needed)
-                  }}
+          {/* BorderBeamDemo Section */}
+          <Box 
+            mt={8}
+            mb={10}
+            position="relative"
+            width="100%"
+            height="auto"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ overflow: 'hidden' , borderRadius: '0.75rem' }}
+          >
+            {/* Border Beam Effect */}
+            <BorderBeam 
+              size={280} 
+              duration={12} 
+              delay={9} 
+              className="absolute inset-0 z-10" 
+            />
+            <img 
+              src="https://i.postimg.cc/jdJDmCMV/hero.png" 
+              alt="Hero" 
+              className="w-full h-auto object-cover shadow-lg" 
+              style={{
+                boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
+                borderRadius: '0.75rem',  // Rounded corners
+                filter: 'blur(0px)',  // No blur effect (adjust if needed)
+              }}
             />
           </Box>
         </Box>
         <Footer />
       </Box>
-      
     </Container>
   );
 };
