@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
           "animate-pulse"
         )}
       />
-
+        
       {/* AppBar */}
       <AppBar
         position="static"
