@@ -96,7 +96,7 @@ const Hero: React.FC = () => {
         </Typography>
         <Box mb={5}>
           <CommonButton 
-            onClick={() => {navigate('/login')}}
+            onClick={() => {navigate('/dashboard')}}
             variant="contained" 
           >
             Get started
