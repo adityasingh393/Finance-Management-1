@@ -14,6 +14,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { MdDeleteSweep } from 'react-icons/md';
 import CommonButton from '../components/common/CommonButton';
 import { Expensedata } from '../utils/dummyData';
+import { toast } from 'react-toastify';
 
 
 const Expense = () => {
@@ -38,6 +39,37 @@ const Expense = () => {
     const onSubmit: SubmitHandler<expenseSource> = (data) => {
         // console.log(data);
         const existingExpense = _userData?.expenseDetails?.find((item) => item.expenseType === data.expenseType);
+        // const existingBuged=_userData?.expenseDetails.find((item)=>item.expenseType===data.expenseType);
+        const existingBudget = _userData?.budgetDetails?.find((item) => item.type === data.expenseType);
+        console.log(`existingBudget ${existingBudget?.amount}`);
+        if(existingBudget){
+           
+                toast.warning(`The expense for ${data.expenseType} has exceeded the budget`, {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+
+            
+        }else{
+            // console.log(`you dont assign a budget for ${data.expenseType} First assign your budget`);
+            toast.info(`Please assign a budget for ${data.expenseType} before incurring expenses.`, {
+                position: 'top-center',
+                autoClose: 3000,  // Auto close the toast after 3000ms (3 seconds)
+                hideProgressBar: false,  // Show the progress bar
+                closeOnClick: true,  // Close the toast when clicked
+                pauseOnHover: true,  // Pause autoClose when hovering over the toast
+                draggable: true,  // Allow dragging the toast
+                progress: undefined,  // Default progress animation duration
+            });
+            navigate(`/budget`)
+            
+            return;
+        }
         let num1;
         if (!existingExpense) {
             num1 = 0;
