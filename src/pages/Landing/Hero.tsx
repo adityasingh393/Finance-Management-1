@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
           }}
         >
           Effortlessly Track and <br /> Manage <span style={{ 
-            background: 'linear-gradient(45deg, #ade8f4, #ade8f4,#90e0ef,#48cae4,#0096c7,#0077b6)',
+            background: 'linear-gradient(45deg, #ffb3c6, #fae0e4,#ffc2e2,#ffadc7,#fb6f92)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -125,7 +125,7 @@ const Hero: React.FC = () => {
             Why use{' '}
             <span
               style={{
-                background: 'linear-gradient(45deg, #ade8f4, #ade8f4,#90e0ef,#48cae4,#0096c7,#0077b6)',
+                background: 'linear-gradient(45deg, #af99ff, #caadff,#ffc2e2,#ffadc7,#ff99b6)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -202,7 +202,7 @@ const Hero: React.FC = () => {
             }}
           >
             Simple yet, <span style={{
-              background: 'linear-gradient(45deg, #ade8f4, #ade8f4,#90e0ef,#48cae4,#0096c7,#0077b6)',
+              background: 'linear-gradient(45deg, #af99ff, #caadff,#ffc2e2,#ffadc7,#ff99b6)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
