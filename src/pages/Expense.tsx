@@ -42,34 +42,7 @@ const Expense = () => {
         // const existingBuged=_userData?.expenseDetails.find((item)=>item.expenseType===data.expenseType);
         const existingBudget = _userData?.budgetDetails?.find((item) => item.type === data.expenseType);
         console.log(`existingBudget ${existingBudget?.amount}`);
-        if(existingBudget){
-           
-                toast.warning(`The expense for ${data.expenseType} has exceeded the budget`, {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
 
-            
-        }else{
-            // console.log(`you dont assign a budget for ${data.expenseType} First assign your budget`);
-            toast.info(`Please assign a budget for ${data.expenseType} before incurring expenses.`, {
-                position: 'top-center',
-                autoClose: 3000,  // Auto close the toast after 3000ms (3 seconds)
-                hideProgressBar: false,  // Show the progress bar
-                closeOnClick: true,  // Close the toast when clicked
-                pauseOnHover: true,  // Pause autoClose when hovering over the toast
-                draggable: true,  // Allow dragging the toast
-                progress: undefined,  // Default progress animation duration
-            });
-            navigate(`/budget`)
-            
-            return;
-        }
         let num1;
         if (!existingExpense) {
             num1 = 0;
@@ -83,6 +56,41 @@ const Expense = () => {
             expenseType: data.expenseType,
             amount: updateamount.toString(),
         }
+
+
+        if (existingBudget) {
+            if (Number(existingBudget.amount) < updateamount) {
+                // console.log(`existingbudget ${existingBudget.amount}  or  ${data.amount} /n`)
+                // console.log(existingBudget.amount < data.amount)
+                toast.warning(`The expense for ${data.expenseType} has exceeded the budget`, {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+
+
+        } else {
+            // console.log(`you dont assign a budget for ${data.expenseType} First assign your budget`);
+            toast.info(`Please assign a budget for ${data.expenseType} before incurring expenses.`, {
+                position: 'top-center',
+                autoClose: 3000,  // Auto close the toast after 3000ms (3 seconds)
+                hideProgressBar: false,  // Show the progress bar
+                closeOnClick: true,  // Close the toast when clicked
+                pauseOnHover: true,  // Pause autoClose when hovering over the toast
+                draggable: true,  // Allow dragging the toast
+                progress: undefined,  // Default progress animation duration
+            });
+            navigate(`/budget`)
+
+            return;
+        }
+
+
         dispatch(addToExpenseArray(newExpense))
         const newObject: transHistory = {
             date: `${dayjs(Date.now()).format('DD/MM/YYYY')}`,
@@ -110,28 +118,29 @@ const Expense = () => {
     };
     const handleEditSubmit = () => {
         if (editIndex !== null && editAmount !== null) {
-          // Perform update action here
-          console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
-          const newObject:expenseSource = {
-              expenseType: _userData?.expenseDetails![editIndex]?.expenseType!,
-              amount: editAmount.toString()
-          }
-          console.log(newObject)
-          dispatch(addToExpenseArray(newObject));
-        const updatedUserData = fetchData();
-        if (updatedUserData) {
-            setUserData(updatedUserData);
-        } else {
-            navigate(`/login`);
+            // Perform update action here
+            console.log(`Updating amount for index ${editIndex} to ${editAmount}`);
+            const newObject: expenseSource = {
+                expenseType: _userData?.expenseDetails![editIndex]?.expenseType!,
+                amount: editAmount.toString()
+            }
+            // console.log(newObject)
+            
+            dispatch(addToExpenseArray(newObject));
+            const updatedUserData = fetchData();
+            if (updatedUserData) {
+                setUserData(updatedUserData);
+            } else {
+                navigate(`/login`);
+            }
+            //   onSubmit(newObject)
+            setEditDialogOpen(false);
+
+            //   setForceRerender(forceRerender+1);
+            // location.reload()
         }
-        //   onSubmit(newObject)
-          setEditDialogOpen(false);
-          
-        //   setForceRerender(forceRerender+1);
-          // location.reload()
-        }
-      };
-    
+    };
+
     const handleDelete = (id: number) => {
         // Handle delete functionality
         console.log(`Delete item with id ${id}`);
@@ -329,7 +338,7 @@ const Expense = () => {
             ))
             }
 
-<Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+            <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
                 <DialogTitle>Edit Amount</DialogTitle>
                 <DialogContent>
                     <TextField
