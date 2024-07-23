@@ -15,7 +15,7 @@ export function saveIncomeToSession (data:incomeSource) {
     else newIncomeArray?.push(data)  // else push the whole data {incomeType, amount}
 
     currentUser.incomeDetails = newIncomeArray  // replace currentUser income array with newIncomeArray
-    console.log('after', currentUser)
+    // console.log('after', currentUser)
     sessionStorage.setItem('currentUser', JSON.stringify(currentUser)) // save current user in session
 
     // call a function to save current user in IndexedDB
@@ -36,7 +36,7 @@ export function saveExpenseToSession (data:expenseSource) {
     else newExpenseArray?.push(data)  // else push the whole data {expenseType, amount}
 
     currentUser.expenseDetails = newExpenseArray  // replace currentUser expense array with newExpenseArray
-    console.log('after', currentUser)
+    // console.log('after', currentUser)
     sessionStorage.setItem('currentUser', JSON.stringify(currentUser)) // save current user in session
         
     // call a function to save current user in IndexedDB
@@ -56,7 +56,7 @@ export function saveBudgetToSession (data:Budget) {
     else newBudgetArray?.push(data)  // else push the whole data {type, amount}
 
     currentUser.budgetDetails = newBudgetArray  // replace currentUser budget array with newBudgetArray
-    console.log('after', currentUser)
+    // console.log('after', currentUser)
     sessionStorage.setItem('currentUser', JSON.stringify(currentUser)) // save current user in session
         
     // call a function to save current user in IndexedDB
@@ -65,14 +65,14 @@ export function saveBudgetToSession (data:Budget) {
 
 export function saveTransactionToSession (data:transHistory) {
 
-    console.log('function "saveTransactionToSession" called')
+    // console.log('function "saveTransactionToSession" called')
     let currentUser:newUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    console.log('bcu', currentUser)
+    // console.log('bcu', currentUser)
 
     currentUser.transDetails?.push(data)
     sessionStorage.setItem('currentUser', JSON.stringify(currentUser))
     currentUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    console.log('acu', currentUser)
+    // console.log('acu', currentUser)
 
     // call a function to save current user in IndexedDB
     saveToIndexedDB(currentUser)
