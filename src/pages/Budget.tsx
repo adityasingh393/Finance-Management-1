@@ -36,9 +36,10 @@ const BudgetPage = () => {
     }, [users] )   //changed just now at 7 pm nedd to check it back did to remove soft error
    
     const onSubmit: SubmitHandler<Budget> = (data) => {
-        // console.log(data);
-        const existingBudget = _userData?.budgetDetails?.find((item) => item.type = data.type);
+        console.log(data,"budget submit");
+        const existingBudget = _userData?.budgetDetails?.find((item) => item.type === data.type);
         let num1;
+        console.log(existingBudget,"existing budget")
         if (!existingBudget) {
             num1 = 0;
         }
