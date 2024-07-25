@@ -15,6 +15,7 @@ import GridPattern from '../../components/landing/GridPattern';
 import { cn } from '../../lib/utils';
 import Navbar from '../../components/common/Navbar';
 import { BorderBeam } from '../../components/landing/BorderBeam';
+import LogoHeader from '../Landing/LogoHeader';
 
 
 
@@ -112,7 +113,7 @@ const Register = () => {
                     mb: 4,
                     boxShadow: '0', 
                 }}
-            >
+            >   <LogoHeader/>
                 <Toolbar>
                     <Typography variant="h5" sx={{
                         flexGrow: 1,
