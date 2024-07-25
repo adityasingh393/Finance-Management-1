@@ -17,6 +17,7 @@ import { BorderBeam } from '../../components/landing/BorderBeam';
 import Navbar from '../../components/common/Navbar';
 import GridPattern from '../../components/landing/GridPattern';
 import { cn } from '../../lib/utils';
+import LogoHeader from '../Landing/LogoHeader';
 // import { fetchData } from '../../utils/customHooks/fetchData';
 // import CommonButton from '../../components/common/CommonButton';
 
@@ -102,7 +103,7 @@ const Login = () => {
                     mb: 4,
                     boxShadow: '0'  // Adds margin at the bottom to separate the AppBar from the form
                 }}
-            >
+            >   <LogoHeader/>
                 <Toolbar>
                     <Typography variant="h5" sx={{
                         flexGrow: 1,
