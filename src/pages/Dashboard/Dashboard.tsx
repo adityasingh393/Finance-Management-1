@@ -101,7 +101,7 @@ const Dashboard: React.FC = () => {
     return <Typography variant="h5" sx={{
       flexGrow: 1,
       textAlign: 'center',
-      fontFamily: "Playwrite DK Uloopet",
+      fontFamily: "Roboto, sans-serif",
       fontWeight: 'bold',
       mt: 26,
       color:'#495057'

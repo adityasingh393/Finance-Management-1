@@ -29,7 +29,7 @@ const CommonButton: React.FC<CustomButtonProps> = ({
             mb: '12px',
             backgroundColor: '#0d1b2a',
             color: 'white',
-            '&:hover': { backgroundColor: '#e56b6f' },
+            '&:hover': { backgroundColor: '#FFAFBD' },
             height: 50,
             fontSize: '0.9rem',
             fontWeight: '700',

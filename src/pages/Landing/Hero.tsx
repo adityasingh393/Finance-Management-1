@@ -44,12 +44,12 @@ const Hero: React.FC = () => {
         alignItems="center"
         justifyContent="center"
         height="100%"
-        mt={{ xs: 62, sm: 88 }}  // Adjusted margin-top for mobile view
+        mt={{ xs: 62, sm: 82 }}  // Adjusted margin-top for mobile view
       >
         <Typography 
           variant="h4" 
           sx={{
-            color: '#0d1b2a',
+            color: '#212529',
             fontWeight: 900,
             mb: 2,
             fontSize: { xs: '1.5rem', sm: '2rem' },
@@ -61,10 +61,10 @@ const Hero: React.FC = () => {
           variant="h2" 
           component="h1" 
           sx={{
-            color: '#0d1b2a',
+            color: '#212529',
             fontWeight: 920,
             mb: 2,
-            fontSize: { xs: '2.5rem', sm: '4rem' },
+            fontSize: { xs: '2.5rem', sm: '5rem' },
             lineHeight: { xs: 1.1, sm: 1.2 },
             textAlign: 'center',
             letterSpacing: { xs: '0.07rem', sm: '0.14rem' },
@@ -72,12 +72,12 @@ const Hero: React.FC = () => {
           }}
         >
           Effortlessly Track and <br /> Manage <span style={{ 
-            background: 'linear-gradient(45deg, #ffb3c6, #fae0e4,#ffc2e2,#ffadc7,#fb6f92)',
+            background: 'linear-gradient(45deg, #FFAFBD, #D5A6F2)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            fontWeight: 920,
             letterSpacing: '0.05rem',
+            fontFamily:'Playwrite DK Loopet',
             ...(typeof window !== 'undefined' && window.innerWidth >= 600 ? { sm: { letterSpacing: '0.1rem' } } : {}),
           }}>Expenses.</span>
         </Typography>
@@ -98,6 +98,7 @@ const Hero: React.FC = () => {
           <CommonButton 
             onClick={() => {navigate('/dashboard')}}
             variant="contained" 
+            
           >
             Get started
           </CommonButton>
@@ -111,6 +112,38 @@ const Hero: React.FC = () => {
           gap={2}
           sx={{ width: '100%', maxWidth: '800px', textAlign: 'left', mx: 'auto' }}
         >
+
+         {/* BorderBeamDemo Section */}
+         <Box 
+            mb={10}
+            position="relative"
+            width="110%"
+            height="auto"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ overflow: 'hidden' , borderRadius: '0.75rem' }}
+          >
+            {/* Border Beam Effect */}
+            <BorderBeam 
+              size={280} 
+              duration={12} 
+              delay={9} 
+              className="absolute inset-0 z-10" 
+            />
+            <img 
+              src="https://i.postimg.cc/jdJDmCMV/hero.png" 
+              alt="Hero" 
+              className="w-full h-auto object-cover shadow-lg" 
+              style={{
+                boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
+                borderRadius: '0.75rem',  // Rounded corners
+                filter: 'blur(0px)',  // No blur effect (adjust if needed)
+              }}
+            />
+          </Box>
+
           <Typography 
             variant="h2" 
             sx={{
@@ -125,7 +158,7 @@ const Hero: React.FC = () => {
             Why use{' '}
             <span
               style={{
-                background: 'linear-gradient(45deg, #af99ff, #caadff,#ffc2e2,#ffadc7,#ff99b6)',
+                background: 'linear-gradient(45deg, #FFAFBD, #D5A6F2)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -143,6 +176,7 @@ const Hero: React.FC = () => {
             justifyContent="center"
             sx={{ textAlign: 'left', maxWidth: '600px', margin: '0 auto' }}
           >
+
             <ol style={{ paddingLeft: '1.5rem', listStylePosition: 'inside' }}>
               <li>
                 <Typography 
@@ -202,7 +236,7 @@ const Hero: React.FC = () => {
             }}
           >
             Simple yet, <span style={{
-              background: 'linear-gradient(45deg, #af99ff, #caadff,#ffc2e2,#ffadc7,#ff99b6)',
+              background: 'linear-gradient(45deg, #FFAFBD, #D5A6F2)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -210,37 +244,7 @@ const Hero: React.FC = () => {
             }}>Powerful</span> Features.
           </Typography>
 
-          {/* BorderBeamDemo Section */}
-          <Box 
-            mt={8}
-            mb={10}
-            position="relative"
-            width="100%"
-            height="auto"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ overflow: 'hidden' , borderRadius: '0.75rem' }}
-          >
-            {/* Border Beam Effect */}
-            <BorderBeam 
-              size={280} 
-              duration={12} 
-              delay={9} 
-              className="absolute inset-0 z-10" 
-            />
-            <img 
-              src="https://i.postimg.cc/jdJDmCMV/hero.png" 
-              alt="Hero" 
-              className="w-full h-auto object-cover shadow-lg" 
-              style={{
-                boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.2)',  // More pronounced shadow
-                borderRadius: '0.75rem',  // Rounded corners
-                filter: 'blur(0px)',  // No blur effect (adjust if needed)
-              }}
-            />
-          </Box>
+        
         </Box>
         <Footer />
       </Box>
