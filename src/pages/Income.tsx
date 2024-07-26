@@ -1,4 +1,4 @@
-import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, List, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { incomeSource, newUser, transHistory } from '../utils/interface/types';
 import { useEffect, useState } from 'react';
@@ -261,17 +261,18 @@ const Income = () => {
             {/* {here comes the list of Incomes...} */}
             {
                 _userData?.incomeDetails?.map((item, indx) => (
-                    <ListItem
+                    <List
                         key={indx}
-                        sx={{
-                            mb: 2,
+                        style={{
+                            marginBottom: 12,
                             borderRadius: '10px',
-                            bgcolor: '#f5f5f5',
+                            backgroundColor: '#f5f5f5',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                             padding: '16px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
+                            listStyleType: 'none',
                         }}
                     >
                         <ListItemText
@@ -282,12 +283,14 @@ const Income = () => {
                                     fontWeight: 'bold',
                                     fontSize: '1.2rem',
                                     fontFamily: 'Inter, sans-serif',
+                                    listStyleType: 'none' 
                                 },
                             }}
                             secondaryTypographyProps={{
                                 sx: {
                                     fontFamily: 'Inter, sans-serif',
                                     fontSize: '1rem',
+                                    listStyleType: 'none' 
                                 },
                             }}
                         />
@@ -305,7 +308,7 @@ const Income = () => {
                                 <MdDeleteSweep />
                             </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>
+                    </List>
 
                 ))
             }
