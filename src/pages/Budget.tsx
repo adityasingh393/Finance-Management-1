@@ -1,4 +1,4 @@
-import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, ListItem, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, List, ListItemSecondaryAction, ListItemText, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Budget, newUser } from '../utils/interface/types';
@@ -209,19 +209,19 @@ const BudgetPage = () => {
             {/* here comes the list of Budgets... */}
             {
                 _userData?.budgetDetails?.map((item, indx) => (
-                    <ListItem
-                        key={indx}
-                        sx={{
-                            mb: 2,
-                            borderRadius: '10px',
-                            bgcolor: '#f5f5f5',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                            padding: '16px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            listStyleType: 'none',
-                        }}
+                    <List
+                    key={indx}
+                    style={{
+                        marginBottom: 12,
+                        borderRadius: '10px',
+                        backgroundColor: '#f5f5f5',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                        padding: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        listStyleType: 'none',
+                    }}
                     >
                         <ListItemText primary={item.type} secondary={`Amount: ${item.amount}`}
                             primaryTypographyProps={{
@@ -255,7 +255,7 @@ const BudgetPage = () => {
                                 <MdDeleteSweep />
                             </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>
+                    </List>
                 ))
             }
 
