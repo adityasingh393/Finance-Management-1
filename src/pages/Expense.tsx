@@ -1,4 +1,4 @@
-import { Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, ListItem, ListItemSecondaryAction, ListItemText, AppBar, Toolbar, DialogTitle, Dialog, DialogContent, Button, DialogActions } from '@mui/material';
+import { Container, FormControl, MenuItem, Select, TextField, Typography, IconButton, List, ListItemSecondaryAction, ListItemText, AppBar, Toolbar, DialogTitle, Dialog, DialogContent, Button, DialogActions } from '@mui/material';
 
 import { useEffect, useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -286,19 +286,19 @@ const Expense = () => {
 
             {/* Here comes the list of Expenses... */}
             {_userData?.expenseDetails?.map((item, indx) => (
-                <ListItem
-                    key={indx}
-                    sx={{
-                        mb: 2,
-                        borderRadius: '10px',
-                        bgcolor: '#f5f5f5',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        padding: '16px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        listStyleType: 'none',
-                    }}
+                 <List
+                 key={indx}
+                 style={{
+                     marginBottom: 12,
+                     borderRadius: '10px',
+                     backgroundColor: '#f5f5f5',
+                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                     padding: '16px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'space-between',
+                     listStyleType: 'none',
+                 }}
                 >
                     <ListItemText
                         primary={item.expenseType}
@@ -334,7 +334,7 @@ const Expense = () => {
                             <MdDeleteSweep />
                         </IconButton>
                     </ListItemSecondaryAction>
-                </ListItem>
+                </List>
             ))
             }
 

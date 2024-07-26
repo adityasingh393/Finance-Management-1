@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useLogin from '../../utils/customHooks/useLogin';
 import { LoginFormInput, newUser } from '../../utils/interface/types';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -18,6 +18,7 @@ import Navbar from '../../components/common/Navbar';
 import GridPattern from '../../components/landing/GridPattern';
 import { cn } from '../../lib/utils';
 import LogoHeader from '../Landing/LogoHeader';
+import { fetchData } from '../../utils/customHooks/fetchData';
 // import { fetchData } from '../../utils/customHooks/fetchData';
 // import CommonButton from '../../components/common/CommonButton';
 
@@ -25,6 +26,14 @@ const Login = () => {
     // const dispatch = useDispatch();  
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const _user=fetchData();
+    useEffect(()=>{
+
+        if(_user){
+            navigate('/dashboard');
+            return;
+        }
+    })
     // let loading=false;
     const [loading, setLoading] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
